@@ -9,134 +9,128 @@
 
 <style>
 :root{
-  --accent:#4f8cff;
-  --accent2:#00f2ff;
-  --bg:#060b18;
+  --accent:#00f2ff;
+  --accent2:#4f8cff;
+  --bg:#000814;
 }
 
 body{
   margin:0;
-  background:var(--bg);
-  font-family:Poppins;
+  background:black;
   overflow:hidden;
+  font-family:Poppins;
+  color:white;
 }
 
-/* ================= INTRO ================= */
+/* MATRIX RAIN */
 
-#intro{
+canvas{
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0;
+}
+
+/* INTRO SCREEN */
+
+#boot{
   position:fixed;
   inset:0;
-  background:radial-gradient(circle,#0b1226,#02040a);
+  background:black;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
   z-index:9999;
-  animation:fadeOut 1s ease 4s forwards;
 }
 
-.intro-title{
+.boot-text{
   font-family:Orbitron;
-  font-size:2.5rem;
-  letter-spacing:4px;
-  color:var(--accent2);
-  text-shadow:0 0 25px var(--accent2);
-  animation:glow 2s infinite alternate;
+  font-size:2rem;
+  color:var(--accent);
+  text-shadow:0 0 20px var(--accent);
+  animation:bootGlow 1.5s infinite alternate;
 }
 
-.intro-sub{
-  margin-top:15px;
-  opacity:0;
-  animation:fadeIn 2s ease 1s forwards;
+@keyframes bootGlow{
+  from{text-shadow:0 0 10px var(--accent);}
+  to{text-shadow:0 0 40px var(--accent);}
 }
 
-@keyframes glow{
-  from{text-shadow:0 0 15px var(--accent2);}
-  to{text-shadow:0 0 40px var(--accent2);}
-}
+/* PARTICLE EXPLOSION */
 
-@keyframes fadeOut{
-  to{opacity:0;visibility:hidden;}
-}
-
-@keyframes fadeIn{
-  to{opacity:1;}
-}
-
-/* ================= GRID ================= */
-
-body::before{
-  content:"";
+.particle{
   position:absolute;
-  inset:0;
-  background:
-    linear-gradient(rgba(79,140,255,0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79,140,255,0.08) 1px, transparent 1px);
-  background-size:40px 40px;
-  animation:gridMove 15s linear infinite;
+  width:4px;
+  height:4px;
+  background:var(--accent);
+  border-radius:50%;
+  animation:explode 1.5s forwards;
 }
 
-@keyframes gridMove{
-  from{background-position:0 0,0 0;}
-  to{background-position:0 40px,40px 0;}
+@keyframes explode{
+  to{
+    transform:translate(var(--x),var(--y));
+    opacity:0;
+  }
 }
 
-/* ================= PHONE ================= */
+/* PHONE HOLOGRAM */
 
 .phone{
+  position:relative;
   width:380px;
   height:720px;
-  border-radius:40px;
-  background:linear-gradient(145deg,#0c1428,#050914);
-  box-shadow:0 0 60px rgba(0,242,255,0.25);
   margin:20px auto;
+  border-radius:40px;
+  background:rgba(10,20,40,0.6);
+  backdrop-filter:blur(20px);
+  box-shadow:0 0 80px rgba(0,242,255,0.4);
+  padding:20px;
   display:flex;
   flex-direction:column;
-  padding:20px;
-  backdrop-filter:blur(20px);
-  position:relative;
   z-index:2;
+  transform:perspective(1000px) rotateX(5deg);
 }
 
 header{
   text-align:center;
   font-family:Orbitron;
-  color:var(--accent2);
-  text-shadow:0 0 15px var(--accent2);
+  color:var(--accent);
+  text-shadow:0 0 20px var(--accent);
 }
 
-/* ================= ORB ================= */
+/* AI CORE ORB */
 
 .orb{
-  width:70px;
-  height:70px;
-  border-radius:50%;
+  width:80px;
+  height:80px;
   margin:10px auto;
-  background:radial-gradient(circle at 30% 30%,#00f2ff,#0044ff);
-  box-shadow:0 0 25px var(--accent2);
-  animation:idle 3s infinite ease-in-out;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#00f2ff,#0022ff);
+  box-shadow:0 0 40px var(--accent);
+  animation:reactor 2s infinite alternate;
 }
 
-@keyframes idle{
-  0%,100%{transform:scale(1);}
-  50%{transform:scale(1.1);}
+@keyframes reactor{
+  from{transform:scale(1);}
+  to{transform:scale(1.15);}
 }
 
 .orb.active{
-  animation:pulse 0.7s infinite alternate;
+  animation:reactFast 0.6s infinite alternate;
 }
 
-@keyframes pulse{
+@keyframes reactFast{
   from{transform:scale(1);}
-  to{transform:scale(1.25);}
+  to{transform:scale(1.3);}
 }
 
-/* ================= CHAT ================= */
+/* CHAT */
 
 .chat{
   flex:1;
   overflow-y:auto;
-  padding:10px;
 }
 
 .message{
@@ -144,57 +138,32 @@ header{
   padding:12px 16px;
   border-radius:18px;
   max-width:75%;
-  animation:fadeInMsg 0.4s ease;
+  animation:fadeIn 0.4s ease;
 }
 
 .user{
-  background:var(--accent);
+  background:#4f8cff;
   margin-left:auto;
 }
 
 .bot{
-  background:rgba(255,255,255,0.08);
-  border:1px solid rgba(0,242,255,0.3);
+  background:rgba(255,255,255,0.1);
+  border:1px solid var(--accent);
 }
 
 .glow-card{
-  box-shadow:0 0 25px rgba(0,242,255,0.6);
+  box-shadow:0 0 30px var(--accent);
 }
 
-@keyframes fadeInMsg{
+@keyframes fadeIn{
   from{opacity:0;transform:translateY(10px);}
   to{opacity:1;}
 }
 
-/* ================= TYPING ================= */
-
-.typing{
-  display:flex;
-  gap:6px;
-  margin:10px 0;
-}
-
-.dot{
-  width:8px;
-  height:8px;
-  background:var(--accent2);
-  border-radius:50%;
-  animation:bounce 1s infinite;
-}
-
-.dot:nth-child(2){animation-delay:0.2s;}
-.dot:nth-child(3){animation-delay:0.4s;}
-
-@keyframes bounce{
-  0%,80%,100%{transform:scale(0.5);}
-  40%{transform:scale(1);}
-}
-
-/* ================= INPUT ================= */
+/* INPUT */
 
 .input-area{
   display:flex;
-  margin-top:10px;
 }
 
 input{
@@ -209,59 +178,110 @@ button{
   margin-left:8px;
   border:none;
   background:var(--accent);
-  color:white;
   padding:10px 15px;
   border-radius:12px;
   cursor:pointer;
 }
+
 </style>
 </head>
 
 <body>
 
-<div id="intro">
-  <div class="intro-title">Shaurya's AI</div>
-  <div class="intro-sub">Initializing Intelligent System...</div>
+<canvas id="matrix"></canvas>
+
+<div id="boot">
+  <div class="boot-text">Initializing Shaurya's AI...</div>
 </div>
 
-<div class="phone">
+<div class="phone" style="display:none;" id="mainUI">
 <header>Shaurya's AI</header>
 <div class="orb" id="orb"></div>
-
 <div class="chat" id="chat"></div>
-
 <div class="input-area">
-  <input id="input" placeholder="Type message..." oninput="reactTyping()">
+  <input id="input" placeholder="Enter query...">
   <button onclick="send()">Send</button>
 </div>
 </div>
 
 <script>
+
+/* MATRIX RAIN */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+const letters="SHAURYA AI 01".split("");
+const fontSize=14;
+const columns=canvas.width/fontSize;
+const drops=[];
+for(let x=0;x<columns;x++) drops[x]=1;
+
+function drawMatrix(){
+  ctx.fillStyle="rgba(0,0,0,0.05)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle="#00f2ff";
+  ctx.font=fontSize+"px monospace";
+  for(let i=0;i<drops.length;i++){
+    const text=letters[Math.floor(Math.random()*letters.length)];
+    ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+    if(drops[i]*fontSize>canvas.height&&Math.random()>0.975) drops[i]=0;
+    drops[i]++;
+  }
+}
+setInterval(drawMatrix,33);
+
+/* BOOT SEQUENCE + PARTICLE EXPLOSION */
+setTimeout(()=>{
+  explode();
+  document.getElementById("boot").style.display="none";
+  document.getElementById("mainUI").style.display="flex";
+},3000);
+
+function explode(){
+  for(let i=0;i<100;i++){
+    let p=document.createElement("div");
+    p.className="particle";
+    p.style.left=window.innerWidth/2+"px";
+    p.style.top=window.innerHeight/2+"px";
+    p.style.setProperty("--x",(Math.random()*800-400)+"px");
+    p.style.setProperty("--y",(Math.random()*800-400)+"px");
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),1500);
+  }
+}
+
+/* CHAT LOGIC */
+
 const orb=document.getElementById("orb");
 const chat=document.getElementById("chat");
 const input=document.getElementById("input");
-
-function reactTyping(){
-  if(input.value.length>0){
-    orb.classList.add("active");
-  } else {
-    orb.classList.remove("active");
-  }
-}
 
 function speak(text){
   const speech=new SpeechSynthesisUtterance(text);
   window.speechSynthesis.speak(speech);
 }
 
-function streamText(element,text){
+function streamText(el,text){
   let words=text.split(" ");
   let i=0;
   let interval=setInterval(()=>{
-    element.innerHTML+=words[i]+" ";
+    el.innerHTML+=words[i]+" ";
     i++;
     if(i>=words.length) clearInterval(interval);
-  },50);
+  },30);
+}
+
+function generateResponse(text){
+  let t=text.toLowerCase();
+  if(t.includes("who is shaurya")){
+    return "Shaurya Chauhan is the CEO and Founder of Shaurya AI, a next-generation intelligent system.";
+  }
+  if(t.includes("hi")||t.includes("hello")){
+    return "Welcome back. System fully operational.";
+  }
+  return "Offline intelligence mode active. Wikipedia connection can be added if required.";
 }
 
 function send(){
@@ -272,45 +292,28 @@ function send(){
   userMsg.className="message user";
   userMsg.innerText=text;
   chat.appendChild(userMsg);
+
   input.value="";
   orb.classList.add("active");
 
-  const typingDiv=document.createElement("div");
-  typingDiv.className="typing";
-  typingDiv.innerHTML="<div class='dot'></div><div class='dot'></div><div class='dot'></div>";
-  chat.appendChild(typingDiv);
-
-  fetch("/chat",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({message:text})
-  })
-  .then(res=>res.json())
-  .then(data=>{
-    typingDiv.remove();
+  setTimeout(()=>{
+    const response=generateResponse(text);
 
     const botMsg=document.createElement("div");
     botMsg.className="message bot";
 
     if(text.toLowerCase().includes("shaurya")){
       botMsg.classList.add("glow-card");
-      speak("Shaurya Chauhan is the CEO and Founder of Shaurya AI.");
+      speak(response);
     }
 
     chat.appendChild(botMsg);
-    streamText(botMsg,data.response);
+    streamText(botMsg,response);
     orb.classList.remove("active");
     chat.scrollTop=chat.scrollHeight;
-  })
-  .catch(()=>{
-    typingDiv.remove();
-    const errorMsg=document.createElement("div");
-    errorMsg.className="message bot";
-    errorMsg.innerText="Server not responding. Please check backend.";
-    chat.appendChild(errorMsg);
-    orb.classList.remove("active");
-  });
+  },600);
 }
+
 </script>
 
 </body>
