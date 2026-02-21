@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const DEEPSEEK_API_KEY = "YOUR_SECRET_KEY_HERE"; // ⚠️ DO NOT PUSH REAL KEY TO GITHUB
+const DEEPSEEK_API_KEY = "sk-c3a20ce9d3fb42449295e98150d41c53"; // ⚠️ DO NOT PUSH REAL KEY TO GITHUB
 
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
