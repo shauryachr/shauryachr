@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
-/* ===== THEME VARIABLES ===== */
 :root {
     --bg: #0f172a;
     --card: rgba(255,255,255,0.05);
@@ -28,9 +26,48 @@ body {
     background: var(--bg);
     color: var(--text);
     transition: 0.4s;
+    overflow: hidden;
 }
 
-/* ===== CONTAINER ===== */
+/* ===== INTRO ===== */
+#intro {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+}
+
+.logo-text {
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    animation: fadeIn 1.5s ease;
+}
+
+.loading-bar {
+    width: 0;
+    height: 3px;
+    background: var(--accent);
+    margin-top: 20px;
+    animation: load 3s forwards;
+}
+
+@keyframes load {
+    from { width: 0; }
+    to { width: 220px; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== LAYOUT ===== */
 .container {
     max-width: 500px;
     margin: auto;
@@ -40,15 +77,12 @@ body {
     padding: 20px;
 }
 
-/* ===== HEADER ===== */
 .header {
     text-align: center;
     font-weight: 600;
     font-size: 22px;
-    margin-bottom: 10px;
 }
 
-/* Dark/Light Toggle */
 .toggle {
     text-align: right;
     cursor: pointer;
@@ -56,7 +90,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* ===== AI ORB ===== */
+/* ===== ORB ===== */
 .orb {
     width: 90px;
     height: 90px;
@@ -89,11 +123,7 @@ body {
 .user { text-align: right; color: var(--accent); }
 .bot { text-align: left; }
 
-/* ===== Typing Indicator ===== */
-.typing {
-    display: inline-block;
-}
-
+/* Typing indicator */
 .typing span {
     display: inline-block;
     width: 6px;
@@ -112,7 +142,7 @@ body {
     40% { transform: scale(1); }
 }
 
-/* ===== INPUT ===== */
+/* Input */
 .input-panel {
     display: flex;
     margin-top: 10px;
@@ -137,19 +167,20 @@ button {
     color: white;
     cursor: pointer;
 }
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div id="intro">
+    <div class="logo-text">Shaurya's AI</div>
+    <div class="loading-bar"></div>
+</div>
 
+<div class="container">
 <div class="header">Shaurya's AI</div>
 <div class="toggle" onclick="toggleTheme()">Toggle Theme</div>
-
 <div class="orb" id="orb"></div>
-
 <div class="chat" id="chat"></div>
 
 <div class="input-panel">
@@ -157,16 +188,26 @@ button {
     <button onclick="send()">Send</button>
     <button onclick="startVoice()">🎤</button>
 </div>
-
 </div>
 
 <script>
-const chat = document.getElementById("chat");
-const input = document.getElementById("input");
-const orb = document.getElementById("orb");
+
+/* ===== INTRO HIDE ===== */
+window.addEventListener("load", ()=>{
+    setTimeout(()=>{
+        document.getElementById("intro").style.opacity="0";
+        setTimeout(()=>{
+            document.getElementById("intro").style.display="none";
+        },500);
+    },3000);
+});
+
+const chat=document.getElementById("chat");
+const input=document.getElementById("input");
+const orb=document.getElementById("orb");
 
 /* ===== GREETING DATABASE ===== */
-let greetings = ["hi","hello","hey","namaste","good morning","good evening"];
+let greetings=["hi","hello","hey","namaste","good morning","good evening"];
 for(let i=0;i<1000;i++){
     greetings.push("hi "+i);
     greetings.push("hello "+i);
@@ -174,7 +215,7 @@ for(let i=0;i<1000;i++){
 function normalize(t){ return t.toLowerCase().trim(); }
 function isGreeting(t){ return greetings.includes(normalize(t)); }
 
-/* ===== ADD MESSAGE ===== */
+/* ===== MESSAGE ===== */
 function addMessage(text,type){
     const msg=document.createElement("div");
     msg.className="message "+type;
@@ -183,7 +224,7 @@ function addMessage(text,type){
     chat.scrollTop=chat.scrollHeight;
 }
 
-/* ===== STREAM TEXT EFFECT ===== */
+/* ===== STREAM TEXT ===== */
 function streamText(text){
     return new Promise(resolve=>{
         const msg=document.createElement("div");
@@ -202,14 +243,13 @@ function streamText(text){
     });
 }
 
-/* ===== Typing Indicator ===== */
+/* ===== Typing ===== */
 function showTyping(){
     const div=document.createElement("div");
     div.className="message bot";
     div.id="typing";
     div.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
     chat.appendChild(div);
-    chat.scrollTop=chat.scrollHeight;
 }
 function removeTyping(){
     const t=document.getElementById("typing");
@@ -218,14 +258,23 @@ function removeTyping(){
 
 /* ===== Wikipedia ===== */
 async function searchWikipedia(query){
-    const url=`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
     try{
-        const res=await fetch(url);
-        if(!res.ok) throw new Error();
-        const data=await res.json();
-        return data.extract || "No information found.";
+        const searchUrl=`https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*`;
+        const searchRes=await fetch(searchUrl);
+        const searchData=await searchRes.json();
+
+        if(!searchData.query.search.length){
+            return "No information found.";
+        }
+
+        const title=searchData.query.search[0].title;
+        const summaryUrl=`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+        const summaryRes=await fetch(summaryUrl);
+        const summaryData=await summaryRes.json();
+
+        return summaryData.extract || "No detailed information available.";
     }catch{
-        return "Unable to retrieve information.";
+        return "Connection error. Use Live Server.";
     }
 }
 
@@ -243,15 +292,13 @@ async function send(){
     let response;
     if(isGreeting(text)){
         response="Hello Shaurya. How can I assist you today?";
-    } else {
+    }else{
         response=await searchWikipedia(text);
     }
 
     removeTyping();
     await streamText(response);
-
     speak(response);
-
     orb.classList.remove("active");
 }
 
@@ -272,21 +319,17 @@ function startVoice(){
     };
 }
 
-/* ===== ORB REACT TO TYPING ===== */
+/* ===== ORB REACT ===== */
 input.addEventListener("input",()=>{
-    if(input.value.length>0){
-        orb.classList.add("active");
-    } else {
-        orb.classList.remove("active");
-    }
+    if(input.value.length>0) orb.classList.add("active");
+    else orb.classList.remove("active");
 });
 
-/* ===== THEME TOGGLE ===== */
+/* ===== THEME ===== */
 function toggleTheme(){
     document.body.classList.toggle("light");
 }
 
 </script>
-
 </body>
 </html>
