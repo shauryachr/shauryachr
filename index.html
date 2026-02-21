@@ -1,316 +1,299 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shaurya AI</title>
+<title>NeuroAI</title>
 
 <style>
+:root{
+  --bg1:#0f172a;
+  --bg2:#1e293b;
+  --glass:rgba(255,255,255,0.08);
+  --border:rgba(255,255,255,0.1);
+  --text:#ffffff;
+  --accent:#10a37f;
+}
+
+.light{
+  --bg1:#f1f5f9;
+  --bg2:#e2e8f0;
+  --glass:rgba(255,255,255,0.7);
+  --border:rgba(0,0,0,0.1);
+  --text:#0f172a;
+  --accent:#10a37f;
+}
+
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
 }
 
 body{
-background:#0f172a;
-color:#e2e8f0;
-height:100vh;
-display:flex;
-align-items:center;
-justify-content:center;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
+  background-size:200% 200%;
+  animation:gradientMove 12s ease infinite;
+  color:var(--text);
+  height:100vh;
+  overflow:hidden;
 }
 
-/* MAIN CARD */
+@keyframes gradientMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* App Layout */
 .app{
-width:420px;
-height:680px;
-background:rgba(255,255,255,0.04);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:24px;
-backdrop-filter:blur(20px);
-box-shadow:0 20px 60px rgba(0,0,0,0.5);
-display:flex;
-flex-direction:column;
-overflow:hidden;
+  display:flex;
+  height:100vh;
 }
 
-/* HEADER */
-.header{
-padding:20px;
-border-bottom:1px solid rgba(255,255,255,0.06);
-display:flex;
-align-items:center;
-justify-content:space-between;
+/* Sidebar */
+.sidebar{
+  width:260px;
+  backdrop-filter:blur(20px);
+  background:var(--glass);
+  border-right:1px solid var(--border);
+  padding:20px;
+  transition:0.3s;
+  display:flex;
+  flex-direction:column;
 }
 
-.brand{
-font-weight:600;
-letter-spacing:1px;
-font-size:15px;
-color:#38bdf8;
+.sidebar.collapsed{
+  width:70px;
 }
 
-.status{
-width:10px;
-height:10px;
-border-radius:50%;
-background:#22c55e;
-box-shadow:0 0 10px #22c55e;
+.sidebar h2{
+  margin-bottom:20px;
 }
 
-/* ORB */
-.orb{
-width:80px;
-height:80px;
-border-radius:50%;
-margin:20px auto;
-background:radial-gradient(circle at 30% 30%,#38bdf8,#1e293b);
-box-shadow:0 0 30px rgba(56,189,248,0.4);
-transition:transform .3s ease, box-shadow .3s ease;
+.history{
+  flex:1;
+  overflow-y:auto;
 }
 
-/* CHAT */
-.chat{
-flex:1;
-overflow-y:auto;
-padding:20px;
-display:flex;
-flex-direction:column;
-gap:12px;
+.history-item{
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+  margin-bottom:8px;
 }
 
-.message{
-padding:12px 16px;
-border-radius:14px;
-font-size:14px;
-line-height:1.5;
-background:rgba(255,255,255,0.05);
-animation:fade .3s ease;
+.history-item:hover{
+  background:var(--border);
 }
 
-.user{
-align-self:flex-end;
-background:#2563eb;
-color:white;
+.toggle-btn{
+  cursor:pointer;
+  margin-bottom:20px;
+  font-size:14px;
+  opacity:0.8;
 }
 
-@keyframes fade{
-from{opacity:0;transform:translateY(6px)}
-to{opacity:1;transform:translateY(0)}
+/* Main */
+.main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
-/* INPUT */
-.inputArea{
-padding:15px;
-border-top:1px solid rgba(255,255,255,0.06);
-display:flex;
-gap:10px;
-}
-
-input{
-flex:1;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.08);
-border-radius:12px;
-padding:12px;
-color:white;
-outline:none;
-}
-
-button{
-background:#38bdf8;
-border:none;
-padding:12px 16px;
-border-radius:12px;
-cursor:pointer;
-font-weight:600;
-}
-
-/* TYPING */
-.typing{
-display:flex;
-gap:4px;
+/* macOS Controls */
+.window-controls{
+  display:flex;
+  gap:8px;
+  padding:12px 20px;
 }
 
 .dot{
-width:6px;
-height:6px;
-border-radius:50%;
-background:#38bdf8;
-animation:blink 1.2s infinite;
+  width:12px;
+  height:12px;
+  border-radius:50%;
 }
 
-.dot:nth-child(2){animation-delay:.2s}
-.dot:nth-child(3){animation-delay:.4s}
+.red{background:#ff5f56;}
+.yellow{background:#ffbd2e;}
+.green{background:#27c93f;}
 
-@keyframes blink{
-0%,80%,100%{opacity:.2}
-40%{opacity:1}
+/* Header */
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 20px 10px 20px;
 }
 
-/* FOUNDER CARD */
-.founder{
-background:linear-gradient(135deg,#2563eb,#38bdf8);
-color:white;
-padding:18px;
-border-radius:16px;
-box-shadow:0 10px 30px rgba(37,99,235,0.4);
+.model-select{
+  padding:8px;
+  border-radius:8px;
+  background:var(--glass);
+  border:1px solid var(--border);
+  color:var(--text);
+}
+
+.theme-toggle{
+  cursor:pointer;
+  padding:8px 12px;
+  border-radius:8px;
+  background:var(--glass);
+  border:1px solid var(--border);
+}
+
+/* Chat */
+.chat{
+  flex:1;
+  overflow-y:auto;
+  padding:20px;
+}
+
+.message{
+  margin-bottom:15px;
+  padding:12px 16px;
+  border-radius:12px;
+  max-width:70%;
+  backdrop-filter:blur(10px);
+  background:var(--glass);
+  border:1px solid var(--border);
+}
+
+.user{
+  margin-left:auto;
+  background:var(--accent);
+  color:white;
+}
+
+/* Input */
+.input-area{
+  padding:15px 20px;
+  display:flex;
+  gap:10px;
+}
+
+input{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--glass);
+  color:var(--text);
+}
+
+button{
+  padding:12px 18px;
+  border-radius:10px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  cursor:pointer;
 }
 </style>
 </head>
+
 <body>
 
 <div class="app">
 
-<div class="header">
-<div class="brand">Shaurya AI</div>
-<div class="status"></div>
-</div>
+  <div class="sidebar" id="sidebar">
+    <div class="toggle-btn" onclick="toggleSidebar()">☰ Collapse</div>
+    <h2>NeuroAI</h2>
+    <div class="history" id="history"></div>
+  </div>
 
-<div class="orb" id="orb"></div>
+  <div class="main">
 
-<div class="chat" id="chat"></div>
+    <div class="window-controls">
+      <div class="dot red"></div>
+      <div class="dot yellow"></div>
+      <div class="dot green"></div>
+    </div>
 
-<div class="inputArea">
-<input id="input" placeholder="Ask anything...">
-<button onclick="send()">Send</button>
-<button onclick="voice()">🎤</button>
-</div>
+    <div class="header">
+      <select class="model-select" id="model">
+        <option>GPT-4</option>
+        <option>GPT-4 Turbo</option>
+        <option>GPT-3.5</option>
+      </select>
+
+      <div class="theme-toggle" onclick="toggleTheme()">🌗 Toggle</div>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="input-area">
+      <input type="text" id="input" placeholder="Ask anything...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+
+  </div>
 
 </div>
 
 <script>
-const orb=document.getElementById("orb");
-let memory=[];
+const chat = document.getElementById("chat");
+const historyDiv = document.getElementById("history");
 
-function activateOrb(power){
-orb.style.transform=`scale(${1+power})`;
-orb.style.boxShadow=`0 0 ${30+power*60}px rgba(56,189,248,0.6)`;
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 
-/* SEND */
-async function send(){
-const input=document.getElementById("input");
-const text=input.value.trim();
-if(!text) return;
-
-addMessage(text,"user");
-input.value="";
-activateOrb(0.2);
-
-if(text.toLowerCase().includes("who is shaurya chauhan")){
-addFounder();
-speak("Shaurya Chauhan is the CEO of Shaurya AI.");
-activateOrb(0.4);
-return;
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("collapsed");
 }
 
-showTyping();
-
-try{
-const searchRes=await fetch(
-"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="
-+encodeURIComponent(text)+"&format=json&origin=*"
-);
-const searchData=await searchRes.json();
-
-if(!searchData.query.search.length){
-removeTyping();
-stream("No information found.");
-return;
+function addMessage(text, type){
+  const msg = document.createElement("div");
+  msg.className = "message " + type;
+  msg.textContent = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-const title=searchData.query.search[0].title;
-
-const summaryRes=await fetch(
-"https://en.wikipedia.org/api/rest_v1/page/summary/"
-+encodeURIComponent(title)
-);
-const summaryData=await summaryRes.json();
-
-let response=summaryData.extract
-.replace(/\[\d+\]/g,"")
-.split(". ")
-.slice(0,3)
-.join(". ")+".";
-
-removeTyping();
-stream(response);
-memory.push({user:text,ai:response});
-if(memory.length>20) memory.shift();
-
-}catch{
-removeTyping();
-stream("Unable to retrieve information.");
-}
+function saveHistory(text){
+  const item = document.createElement("div");
+  item.className = "history-item";
+  item.textContent = text.slice(0,30);
+  historyDiv.appendChild(item);
 }
 
-/* STREAM */
-function stream(text){
-const msg=document.createElement("div");
-msg.className="message";
-document.getElementById("chat").appendChild(msg);
-let i=0;
-activateOrb(0.4);
-const interval=setInterval(()=>{
-msg.textContent+=text[i];
-i++;
-if(i>=text.length){
-clearInterval(interval);
-activateOrb(0);
-}
-},15);
-speak(text);
+async function sendMessage(){
+  const input = document.getElementById("input");
+  const text = input.value.trim();
+  if(!text) return;
+
+  addMessage(text,"user");
+  saveHistory(text);
+  input.value="";
+
+  if(text.toLowerCase().startsWith("wiki ")){
+    const topic = text.replace("wiki ","");
+    fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${topic}`)
+    .then(res=>res.json())
+    .then(data=>{
+      if(data.extract){
+        addMessage(data.extract,"bot");
+      }else{
+        addMessage("No info found.","bot");
+      }
+    }).catch(()=>{
+      addMessage("No info found.","bot");
+    });
+  }
+  else{
+    // AI-style response simulation
+    setTimeout(()=>{
+      addMessage("This is a simulated AI response. Connect backend for real GPT.","bot");
+    },800);
+  }
 }
 
-/* MESSAGE */
-function addMessage(text,type){
-const msg=document.createElement("div");
-msg.className="message "+type;
-msg.textContent=text;
-document.getElementById("chat").appendChild(msg);
-}
-
-/* TYPING */
-function showTyping(){
-const t=document.createElement("div");
-t.className="message typing";
-t.id="typing";
-t.innerHTML="<div class='dot'></div><div class='dot'></div><div class='dot'></div>";
-document.getElementById("chat").appendChild(t);
-}
-function removeTyping(){
-const t=document.getElementById("typing");
-if(t) t.remove();
-}
-
-/* FOUNDER */
-function addFounder(){
-const card=document.createElement("div");
-card.className="founder";
-card.innerHTML="<strong>Shaurya Chauhan</strong><br>CEO of Shaurya AI";
-document.getElementById("chat").appendChild(card);
-}
-
-/* VOICE */
-function speak(text){
-const u=new SpeechSynthesisUtterance(text);
-u.rate=1;
-u.pitch=1.05;
-speechSynthesis.speak(u);
-}
-
-function voice(){
-const recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
-recognition.onresult=function(event){
-document.getElementById("input").value=
-event.results[0][0].transcript;
-send();
-};
-recognition.start();
-}
+document.getElementById("input")
+.addEventListener("keypress",function(e){
+  if(e.key==="Enter") sendMessage();
+});
 </script>
 
 </body>
