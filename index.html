@@ -1,219 +1,254 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Hybrid AI Engine</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI Assistant</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- PWA -->
+<link rel="manifest" href="data:application/json,{
+  &quot;name&quot;:&quot;AI Assistant&quot;,
+  &quot;short_name&quot;:&quot;AI&quot;,
+  &quot;start_url&quot;:&quot;.&quot;,
+  &quot;display&quot;:&quot;standalone&quot;,
+  &quot;background_color&quot;:&quot;#0f172a&quot;,
+  &quot;theme_color&quot;:&quot;#0f172a&quot;,
+  &quot;icons&quot;:[]
+}">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0f172a;
+  --panel:#1e293b;
+  --text:#e2e8f0;
+  --accent:#22d3ee;
+}
+.light{
+  --bg:#ffffff;
+  --panel:#f1f5f9;
+  --text:#0f172a;
+}
 body{
-    font-family:system-ui;
-    background:#0f172a;
-    color:white;
-    display:flex;
-    flex-direction:column;
-    height:100vh;
+  margin:0;
+  font-family:Inter,system-ui;
+  background:var(--bg);
+  color:var(--text);
+  display:flex;
+  flex-direction:column;
+  height:100vh;
 }
 header{
-    padding:15px;
-    background:#1e293b;
-    text-align:center;
-    font-weight:bold;
-}
-#chat{
-    flex:1;
-    overflow-y:auto;
-    padding:20px;
-}
-.message{margin-bottom:20px;}
-.user{text-align:right;}
-.bubble{
-    display:inline-block;
-    padding:12px 16px;
-    border-radius:12px;
-    max-width:80%;
-    line-height:1.6;
-}
-.user .bubble{background:#2563eb;}
-.ai .bubble{background:#1e293b;}
-#inputArea{
-    display:flex;
-    padding:15px;
-    background:#1e293b;
-}
-input{
-    flex:1;
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    background:#0f172a;
-    color:white;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  background:var(--panel);
 }
 button{
-    margin-left:10px;
-    padding:12px 18px;
-    border-radius:8px;
-    border:none;
-    background:#2563eb;
-    color:white;
-    cursor:pointer;
+  background:var(--accent);
+  border:none;
+  padding:8px 14px;
+  border-radius:6px;
+  cursor:pointer;
 }
-button:hover{background:#1d4ed8;}
-.typing{opacity:0.6;font-style:italic;}
-.source{
-    font-size:12px;
-    opacity:0.7;
-    margin-top:8px;
+#chat{
+  flex:1;
+  overflow:auto;
+  padding:20px;
+}
+.message{
+  margin-bottom:15px;
+  padding:12px;
+  border-radius:8px;
+  max-width:80%;
+}
+.user{
+  background:#2563eb;
+  margin-left:auto;
+}
+.ai{
+  background:var(--panel);
+}
+#inputBar{
+  display:flex;
+  padding:10px;
+  background:var(--panel);
+}
+textarea{
+  flex:1;
+  resize:none;
+  border-radius:6px;
+  padding:10px;
+}
+pre{
+  background:#0f172a;
+  padding:10px;
+  border-radius:6px;
+  overflow:auto;
 }
 </style>
 </head>
-
 <body>
 
-<header>Hybrid AI (Ranked + Voice + Citations)</header>
+<header>
+  <div>AI Assistant</div>
+  <div>
+    <button onclick="toggleTheme()">Theme</button>
+    <button onclick="clearMemory()">Clear Memory</button>
+  </div>
+</header>
+
 <div id="chat"></div>
 
-<div id="inputArea">
-    <input id="userInput" placeholder="Ask something..." />
-    <button onclick="sendMessage()">Send</button>
-    <button onclick="startVoice()">🎤</button>
+<div id="inputBar">
+  <textarea id="input" rows="2"></textarea>
+  <button onclick="send()">Send</button>
+  <button onclick="voiceInput()">🎤</button>
 </div>
 
 <script>
-const chat = document.getElementById("chat");
-const input = document.getElementById("userInput");
+// ===== CONFIG =====
+const API_KEY = "AIzaSyAxP_QN-YULBmrWD0AClnhjmO_yYT8EPJ4";
+const MODEL = " gemini-chat"; // change to gpt-4o, gemini, etc.
 
-input.addEventListener("keypress", e=>{
-    if(e.key==="Enter") sendMessage();
-});
+// ===== MEMORY (Encrypted) =====
+const secret = "local_secret_key";
 
-function addMessage(content,sender){
-    const msg=document.createElement("div");
-    msg.className="message "+sender;
-    const bubble=document.createElement("div");
-    bubble.className="bubble";
-    bubble.innerHTML=content;
-    msg.appendChild(bubble);
-    chat.appendChild(msg);
-    chat.scrollTop=chat.scrollHeight;
-    return bubble;
+function encrypt(data){
+  return btoa(unescape(encodeURIComponent(data)));
+}
+function decrypt(data){
+  try{return decodeURIComponent(escape(atob(data)));}
+  catch{return "";}
 }
 
-/* ----------- Wikipedia ----------- */
-async function fetchWikipedia(query){
-    try{
-        const res=await fetch(
-            `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`
-        );
-        const data=await res.json();
-        return data.extract||"";
-    }catch{return "";}
+function saveMemory(mem){
+  localStorage.setItem("ai_memory", encrypt(JSON.stringify(mem)));
+}
+function loadMemory(){
+  let d = localStorage.getItem("ai_memory");
+  return d ? JSON.parse(decrypt(d)) : [];
 }
 
-/* ----------- GitHub HTML Extraction ----------- */
-async function fetchGitHubContent(){
-    try{
-        const res=await fetch("https://hanuveer1904.github.io/jsqb.html");
-        const html=await res.text();
-        const parser=new DOMParser();
-        const doc=parser.parseFromString(html,"text/html");
+let conversation = loadMemory();
 
-        // Remove scripts/styles
-        doc.querySelectorAll("script,style").forEach(el=>el.remove());
-
-        return doc.body.innerText;
-    }catch{return "";}
+// ===== THEME =====
+function toggleTheme(){
+  document.body.classList.toggle("light");
 }
 
-/* ----------- Relevance Scoring ----------- */
-function scoreContent(content,query){
-    const words=query.toLowerCase().split(" ");
-    let score=0;
-    words.forEach(w=>{
-        const regex=new RegExp(w,"gi");
-        const matches=content.match(regex);
-        if(matches) score+=matches.length;
-    });
-    return score;
+// ===== CHAT RENDER =====
+function addMessage(role,text){
+  const div=document.createElement("div");
+  div.className="message "+(role==="user"?"user":"ai");
+  div.innerHTML=formatText(text);
+  document.getElementById("chat").appendChild(div);
+  document.getElementById("chat").scrollTop=999999;
 }
 
-/* ----------- Rewrite AI Style ----------- */
-function rewriteAnswer(query,wiki,github){
-    let combined="";
-    if(wiki) combined+=wiki+"\n\n";
-    if(github) combined+=github.substring(0,800);
-
-    return `
-### Answer to: "${query}"
-
-${combined}
-
----
-**Summary:**  
-The information above was retrieved, ranked by relevance, and combined into a structured response.
-`;
+// ===== FORMAT (Code Highlight) =====
+function formatText(text){
+  return text
+  .replace(/```(.*?)```/gs,"<pre>$1</pre>")
+  .replace(/\n/g,"<br>");
 }
 
-/* ----------- Main Send ----------- */
-async function sendMessage(){
-    const text=input.value.trim();
-    if(!text) return;
-
-    addMessage(text,"user");
-    input.value="";
-
-    const bubble=addMessage("Analyzing sources...","ai");
-    bubble.classList.add("typing");
-
-    const wiki=await fetchWikipedia(text);
-    const githubContent=await fetchGitHubContent();
-
-    const wikiScore=scoreContent(wiki,text);
-    const githubScore=scoreContent(githubContent,text);
-
-    let rankedWiki=wiki;
-    let rankedGitHub=githubContent;
-
-    if(githubScore>wikiScore){
-        [rankedWiki,rankedGitHub]=[rankedGitHub,rankedWiki];
-    }
-
-    const finalAnswer=rewriteAnswer(text,rankedWiki,rankedGitHub);
-
-    bubble.classList.remove("typing");
-    bubble.innerHTML=marked.parse(finalAnswer+`
-
-<div class="source">
-Sources:<br>
-[1] Wikipedia<br>
-[2] hanuveer1904.github.io/jsqb.html
-</div>
-`);
-
-    document.querySelectorAll("pre code").forEach(block=>{
-        hljs.highlightElement(block);
-    });
+// ===== TYPING EFFECT =====
+async function typeMessage(text){
+  const div=document.createElement("div");
+  div.className="message ai";
+  document.getElementById("chat").appendChild(div);
+  for(let i=0;i<text.length;i++){
+    div.innerHTML=formatText(text.slice(0,i+1));
+    await new Promise(r=>setTimeout(r,10));
+  }
+  document.getElementById("chat").scrollTop=999999;
 }
 
-/* ----------- Voice Input ----------- */
-function startVoice(){
-    if(!('webkitSpeechRecognition' in window)){
-        alert("Voice not supported in this browser.");
-        return;
-    }
-    const recognition=new webkitSpeechRecognition();
-    recognition.lang="en-US";
-    recognition.start();
+// ===== SEND =====
+async function send(){
+  const input=document.getElementById("input");
+  const msg=input.value.trim();
+  if(!msg)return;
 
-    recognition.onresult=function(event){
-        input.value=event.results[0][0].transcript;
-    };
+  addMessage("user",msg);
+  conversation.push({role:"user",content:msg});
+  input.value="";
+
+  const response=await fetch("https://api.deepseek.com/chat/completions",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "Authorization":"Bearer "+API_KEY
+    },
+    body:JSON.stringify({
+      model:MODEL,
+      messages:conversation
+    })
+  });
+
+  const data=await response.json();
+  const reply=data.choices[0].message.content;
+
+  conversation.push({role:"assistant",content:reply});
+  saveMemory(conversation);
+  typeMessage(reply);
+
+  speak(reply);
 }
+
+// ===== CLEAR MEMORY =====
+function clearMemory(){
+  localStorage.removeItem("ai_memory");
+  conversation=[];
+  document.getElementById("chat").innerHTML="";
+}
+
+// ===== VOICE INPUT =====
+function voiceInput(){
+  const recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
+  recognition.lang="en-US";
+  recognition.start();
+  recognition.onresult=e=>{
+    document.getElementById("input").value=e.results[0][0].transcript;
+  };
+}
+
+// ===== VOICE OUTPUT =====
+function speak(text){
+  const utter=new SpeechSynthesisUtterance(text);
+  speechSynthesis.speak(utter);
+}
+
+// ===== FILE UPLOAD =====
+const fileInput=document.createElement("input");
+fileInput.type="file";
+fileInput.style.display="none";
+fileInput.onchange=e=>{
+  const file=e.target.files[0];
+  const reader=new FileReader();
+  reader.onload=()=>{
+    document.getElementById("input").value="File content:\n"+reader.result;
+  };
+  reader.readAsText(file);
+};
+document.body.appendChild(fileInput);
+
+// ===== TOOL CALLING (Calculator) =====
+function calculate(expr){
+  try{return eval(expr);}
+  catch{return "Invalid expression";}
+}
+
+// ===== PWA SERVICE WORKER =====
+if("serviceWorker" in navigator){
+  const swCode=`
+  self.addEventListener('install',e=>self.skipWaiting());
+  self.addEventListener('fetch',e=>{});
+  `;
+  const blob=new Blob([swCode],{type:"text/javascript"});
+  navigator.serviceWorker.register(URL.createObjectURL(blob));
+}
+
 </script>
-
 </body>
 </html>
