@@ -1,1 +1,1 @@
-shauryachr.github.io
+https://shauryachr.github.io/
