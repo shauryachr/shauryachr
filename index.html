@@ -1,300 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>NeuroAI</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaurya AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
 <style>
 :root{
-  --bg:#0b1020;
-  --panel:rgba(255,255,255,0.06);
-  --border:rgba(255,255,255,0.08);
-  --text:#f1f5f9;
-  --muted:#94a3b8;
-  --accent:#10a37f;
+--bg:#0b1020;
+--panel:rgba(255,255,255,0.06);
+--border:rgba(255,255,255,0.08);
+--text:#f1f5f9;
+--muted:#94a3b8;
+--accent:#10a37f;
 }
-
 .light{
-  --bg:#f8fafc;
-  --panel:rgba(255,255,255,0.8);
-  --border:rgba(0,0,0,0.08);
-  --text:#0f172a;
-  --muted:#64748b;
+--bg:#f8fafc;
+--panel:rgba(255,255,255,0.8);
+--border:rgba(0,0,0,0.08);
+--text:#0f172a;
+--muted:#64748b;
+--accent:#10a37f;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Inter",sans-serif;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  height:100vh;
-  overflow:hidden;
-}
-
-/* Animated Aurora Background */
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Inter",sans-serif;}
+body{background:var(--bg);color:var(--text);height:100vh;overflow:hidden;}
 body::before{
-  content:"";
-  position:fixed;
-  width:200%;
-  height:200%;
-  background:radial-gradient(circle at 30% 30%, #10a37f22, transparent 50%),
-             radial-gradient(circle at 70% 60%, #6366f122, transparent 50%);
-  animation:float 18s linear infinite;
-  z-index:-1;
+content:"";position:fixed;width:200%;height:200%;
+background:radial-gradient(circle at 30% 30%, #10a37f22, transparent 50%), radial-gradient(circle at 70% 60%, #6366f122, transparent 50%);
+animation:float 18s linear infinite; z-index:-1;
 }
+@keyframes float{0%{transform:translate(0,0)}50%{transform:translate(-10%, -10%)}100%{transform:translate(0,0)}}
 
-@keyframes float{
-  0%{transform:translate(0,0)}
-  50%{transform:translate(-10%, -10%)}
-  100%{transform:translate(0,0)}
-}
-
-/* Layout */
-.app{
-  display:grid;
-  grid-template-columns:260px 1fr;
-  height:100vh;
-}
+.app{display:grid;grid-template-columns:260px 1fr;height:100vh;}
 
 /* Sidebar */
-.sidebar{
-  backdrop-filter:blur(20px);
-  background:var(--panel);
-  border-right:1px solid var(--border);
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  transition:0.3s;
-}
-
-.sidebar.collapsed{
-  width:80px;
-}
-
-.logo{
-  font-weight:600;
-  font-size:18px;
-  margin-bottom:20px;
-}
-
-.history{
-  flex:1;
-  overflow-y:auto;
-}
-
-.history div{
-  padding:10px;
-  border-radius:8px;
-  font-size:14px;
-  color:var(--muted);
-  cursor:pointer;
-  margin-bottom:6px;
-}
-
-.history div:hover{
-  background:var(--border);
-  color:var(--text);
-}
+.sidebar{backdrop-filter:blur(20px);background:var(--panel);border-right:1px solid var(--border);padding:20px;display:flex;flex-direction:column;transition:0.3s;}
+.sidebar.collapsed{width:80px;}
+.logo{font-weight:600;font-size:18px;margin-bottom:20px;}
+.toggle-btn{cursor:pointer;margin-bottom:20px;font-size:14px;opacity:0.8;}
+.history{flex:1;overflow-y:auto;}
+.history div{padding:10px;border-radius:8px;font-size:14px;color:var(--muted);cursor:pointer;margin-bottom:6px;}
+.history div:hover{background:var(--border);color:var(--text);}
 
 /* Main */
-.main{
-  display:flex;
-  flex-direction:column;
-}
+.main{display:flex;flex-direction:column;}
 
 /* Header */
-.header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:16px 24px;
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(20px);
-  background:var(--panel);
-}
-
-.window{
-  display:flex;
-  gap:8px;
-}
-
-.dot{
-  width:12px;
-  height:12px;
-  border-radius:50%;
-}
+.header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--border);backdrop-filter:blur(20px);background:var(--panel);}
+.window{display:flex;gap:8px;}
+.dot{width:12px;height:12px;border-radius:50%;}
 .red{background:#ff5f56}
 .yellow{background:#ffbd2e}
 .green{background:#27c93f}
-
-.controls{
-  display:flex;
-  gap:12px;
-  align-items:center;
-}
-
-select, .toggle{
-  background:var(--panel);
-  border:1px solid var(--border);
-  color:var(--text);
-  padding:8px 12px;
-  border-radius:8px;
-  font-size:14px;
-  cursor:pointer;
-}
+.controls{display:flex;gap:12px;align-items:center;}
+select,.toggle{background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:8px;font-size:14px;cursor:pointer;}
 
 /* Chat */
-.chat{
-  flex:1;
-  padding:30px;
-  overflow-y:auto;
-}
-
-.message{
-  max-width:650px;
-  margin-bottom:20px;
-  line-height:1.6;
-}
-
-.user{
-  margin-left:auto;
-  text-align:right;
-  color:white;
-  background:var(--accent);
-  padding:12px 16px;
-  border-radius:12px;
-}
-
-.bot{
-  padding:12px 16px;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-}
+.chat{flex:1;padding:30px;overflow-y:auto;}
+.message{max-width:650px;margin-bottom:20px;line-height:1.6;}
+.user{margin-left:auto;text-align:right;color:white;background:var(--accent);padding:12px 16px;border-radius:12px;}
+.bot{padding:12px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;}
 
 /* Input */
-.input-area{
-  padding:20px 30px;
-  border-top:1px solid var(--border);
-  backdrop-filter:blur(20px);
-  background:var(--panel);
-}
+.input-area{padding:20px 30px;border-top:1px solid var(--border);backdrop-filter:blur(20px);background:var(--panel);}
+.input-box{display:flex;gap:12px;}
+input{flex:1;padding:14px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:15px;}
+button{padding:14px 18px;border-radius:10px;border:none;background:var(--accent);color:white;cursor:pointer;}
 
-.input-box{
-  display:flex;
-  gap:12px;
-}
-
-input{
-  flex:1;
-  padding:14px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:transparent;
-  color:var(--text);
-  font-size:15px;
-}
-
-button{
-  padding:14px 18px;
-  border-radius:10px;
-  border:none;
-  background:var(--accent);
-  color:white;
-  cursor:pointer;
-}
+/* Intro Screen */
+#intro{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0b1020,#111827);display:flex;align-items:center;justify-content:center;flex-direction:column;color:white;font-size:28px;font-weight:600;z-index:999;}
+#intro span{opacity:0;animation:fadein 1s forwards;}
+@keyframes fadein{0%{opacity:0;transform:translateY(20px);}100%{opacity:1;transform:translateY(0);}}
 </style>
 </head>
-
 <body>
+<div id="intro"><span>Shaurya AI Booting...</span></div>
 
 <div class="app">
-
 <div class="sidebar" id="sidebar">
-  <div class="logo">NeuroAI</div>
-  <div class="history" id="history"></div>
+<div class="toggle-btn" onclick="toggleSidebar()">☰ Collapse</div>
+<div class="logo">Shaurya AI</div>
+<div class="history" id="history"></div>
 </div>
 
 <div class="main">
+<div class="header">
+<div class="window">
+<div class="dot red"></div>
+<div class="dot yellow"></div>
+<div class="dot green"></div>
+</div>
+<div class="controls">
+<select id="model">
+<option>GPT-4</option>
+<option>GPT-4 Turbo</option>
+<option>GPT-3.5</option>
+</select>
+<div class="toggle" onclick="toggleTheme()">Theme</div>
+</div>
+</div>
 
-  <div class="header">
-    <div class="window">
-      <div class="dot red"></div>
-      <div class="dot yellow"></div>
-      <div class="dot green"></div>
-    </div>
+<div class="chat" id="chat"></div>
 
-    <div class="controls">
-      <select id="model">
-        <option>GPT-4</option>
-        <option>GPT-4 Turbo</option>
-        <option>GPT-3.5</option>
-      </select>
-      <div class="toggle" onclick="toggleTheme()">Theme</div>
-    </div>
-  </div>
-
-  <div class="chat" id="chat"></div>
-
-  <div class="input-area">
-    <div class="input-box">
-      <input id="input" placeholder="Ask anything..." />
-      <button onclick="send()">Send</button>
-    </div>
-  </div>
-
+<div class="input-area">
+<div class="input-box">
+<input id="input" placeholder="Ask anything..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+</div>
 </div>
 </div>
 
 <script>
 const chat=document.getElementById("chat");
 const historyBox=document.getElementById("history");
+const greetings=["hi","hello","hey","good morning","good evening","namaste"];
+function toggleTheme(){document.body.classList.toggle("light");}
+function toggleSidebar(){document.getElementById("sidebar").classList.toggle("collapsed");}
+function addMessage(text,type){const div=document.createElement("div");div.className="message "+type;div.textContent=text;chat.appendChild(div);chat.scrollTop=chat.scrollHeight;}
+function saveHistory(text){const item=document.createElement("div");item.textContent=text.slice(0,35);historyBox.appendChild(item);}
+async function sendMessage(){
+const input=document.getElementById("input");
+let text=input.value.trim();
+if(!text) return;
+addMessage(text,"user");saveHistory(text);input.value="";
 
-function toggleTheme(){
-  document.body.classList.toggle("light");
+// Greetings
+if(greetings.includes(text.toLowerCase())){
+addMessage("Hello! How can I help you today?","bot");
+return;
 }
 
-function addMessage(text,type){
-  const div=document.createElement("div");
-  div.className="message "+type;
-  div.textContent=text;
-  chat.appendChild(div);
-  chat.scrollTop=chat.scrollHeight;
+// Founder trigger
+if(text.toLowerCase().includes("who is shaurya chauhan")){
+addMessage("Shaurya Chauhan is the CEO of Shaurya AI.","bot");
+return;
 }
 
-function saveHistory(text){
-  const item=document.createElement("div");
-  item.textContent=text.slice(0,35);
-  historyBox.appendChild(item);
+// Wikipedia query
+try{
+const res=await fetch("https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="+encodeURIComponent(text)+"&format=json&origin=*");
+const data=await res.json();
+if(data.query.search.length===0){addMessage("No information found.","bot");return;}
+const title=data.query.search[0].title;
+const sum=await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(title));
+const sdata=await sum.json();
+let response=sdata.extract.replace(/\[\d+\]/g,"").split(". ").slice(0,3).join(". ") + ".";
+addMessage(response,"bot");
+}catch(e){addMessage("Unable to retrieve information.","bot");}
 }
+document.getElementById("input").addEventListener("keypress",e=>{if(e.key==="Enter") sendMessage();});
 
-function send(){
-  const input=document.getElementById("input");
-  const text=input.value.trim();
-  if(!text) return;
-
-  addMessage(text,"user");
-  saveHistory(text);
-  input.value="";
-
-  setTimeout(()=>{
-    addMessage("This is a clean simulated AI response. Connect backend for real GPT integration.","bot");
-  },600);
-}
-
-document.getElementById("input")
-.addEventListener("keypress",e=>{
-  if(e.key==="Enter") send();
-});
+// Intro animation
+window.addEventListener("load",()=>{setTimeout(()=>{document.getElementById("intro").style.display="none";},2500);});
 </script>
-
 </body>
 </html>
