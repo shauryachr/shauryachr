@@ -6,177 +6,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ================= GLOBAL ================= */
-*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI, sans-serif}
-body{
-background:#000;
-color:#fff;
-overflow:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Segoe UI,sans-serif}
+body{background:#000;color:#fff;overflow:hidden}
 
-/* MATRIX RAIN */
-canvas{
-position:fixed;
-top:0;left:0;
-z-index:-2;
-}
+/* MATRIX */
+canvas{position:fixed;top:0;left:0;z-index:-2}
 
-/* PARTICLE INTRO */
+/* INTRO */
 #intro{
-position:fixed;
-inset:0;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:999;
-animation:fadeOut 2s ease forwards 5s;
+position:fixed;inset:0;background:#000;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+z-index:999;color:#00ffff;
+animation:fadeOut 2s ease forwards 4s;
 }
+@keyframes fadeOut{to{opacity:0;visibility:hidden}}
+#boot{font-size:14px;letter-spacing:3px;animation:blink 1s infinite alternate}
+@keyframes blink{from{opacity:0.3}to{opacity:1}}
 
-@keyframes fadeOut{
-to{opacity:0;visibility:hidden}
-}
-
-#boot{
-font-size:14px;
-color:#00ffcc;
-letter-spacing:2px;
-animation:blink 1s infinite alternate;
-}
-
-@keyframes blink{
-from{opacity:0.3}
-to{opacity:1}
-}
-
-/* HOLOGRAPHIC GLASS UI */
+/* CONTAINER */
 .container{
-position:absolute;
-top:50%;
-left:50%;
+position:absolute;top:50%;left:50%;
 transform:translate(-50%,-50%);
-width:420px;
-height:680px;
+width:420px;height:680px;
 border-radius:30px;
-backdrop-filter:blur(20px);
 background:rgba(255,255,255,0.05);
-box-shadow:0 0 40px #00ffff55;
-overflow:hidden;
-display:flex;
-flex-direction:column;
+backdrop-filter:blur(20px);
 border:1px solid #00ffff44;
+box-shadow:0 0 40px #00ffff55;
+display:flex;flex-direction:column;
+overflow:hidden;
 }
 
 /* ORB */
 .orb{
-width:120px;
-height:120px;
-border-radius:50%;
-margin:20px auto;
+width:120px;height:120px;
+margin:20px auto;border-radius:50%;
 background:radial-gradient(circle,#00ffff,#001);
-box-shadow:0 0 40px #00ffff, 0 0 80px #00ffff;
+box-shadow:0 0 40px #00ffff,0 0 80px #00ffff;
 animation:spin 6s linear infinite;
 }
-
-@keyframes spin{
-from{transform:rotate(0)}
-to{transform:rotate(360deg)}
-}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
 /* CHAT */
-.chat{
-flex:1;
-overflow-y:auto;
-padding:15px;
-}
-
+.chat{flex:1;overflow-y:auto;padding:15px}
 .message{
-margin-bottom:10px;
-padding:10px 15px;
+margin-bottom:10px;padding:10px 15px;
 border-radius:15px;
 background:rgba(0,255,255,0.1);
-animation:fadeIn 0.4s ease;
+animation:fadeIn .4s ease
 }
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}
-}
-
-.user{
-background:rgba(0,255,0,0.15);
-}
+.user{background:rgba(0,255,0,0.15)}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}}
 
 /* INPUT */
-.inputBox{
-display:flex;
-padding:10px;
-border-top:1px solid #00ffff33;
-}
-
+.inputBox{display:flex;padding:10px;border-top:1px solid #00ffff33}
 input{
-flex:1;
-padding:10px;
-border-radius:20px;
-border:none;
-outline:none;
-background:#111;
-color:#fff;
+flex:1;padding:10px;border-radius:20px;
+border:none;outline:none;background:#111;color:#fff
 }
-
 button{
-margin-left:8px;
-padding:10px 15px;
-border:none;
-border-radius:20px;
-background:#00ffff;
-cursor:pointer;
+margin-left:8px;padding:10px 15px;
+border:none;border-radius:20px;
+background:#00ffff;cursor:pointer
 }
 
-/* FOUNDER GLOW CARD */
+/* TYPING */
+.typing{display:flex;gap:5px}
+.dot{
+width:8px;height:8px;background:#00ffff;
+border-radius:50%;animation:bounce 1s infinite
+}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,100%{transform:translateY(0)}
+50%{transform:translateY(-5px)}}
+
+/* FOUNDER CARD */
 .founder{
-margin:10px;
-padding:15px;
-border-radius:20px;
+margin:10px;padding:15px;border-radius:20px;
 background:linear-gradient(45deg,#00ffff,#0088ff);
 box-shadow:0 0 30px #00ffff;
-text-align:center;
-animation:glow 2s infinite alternate;
+text-align:center;animation:glow 2s infinite alternate
 }
-
-@keyframes glow{
-from{box-shadow:0 0 20px #00ffff}
-to{box-shadow:0 0 60px #00ffff}
-}
-
-/* TYPING DOTS */
-.typing{
-display:flex;
-gap:5px;
-}
-.dot{
-width:8px;height:8px;
-background:#00ffff;
-border-radius:50%;
-animation:bounce 1s infinite;
-}
-.dot:nth-child(2){animation-delay:0.2s}
-.dot:nth-child(3){animation-delay:0.4s}
-@keyframes bounce{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-5px)}
-}
+@keyframes glow{from{box-shadow:0 0 20px #00ffff}
+to{box-shadow:0 0 60px #00ffff}}
 </style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
 
-<!-- INTRO -->
 <div id="intro">
-<h1 style="color:#00ffff;font-size:28px;">Shaurya's AI</h1>
-<p id="boot">Initializing Neural Core...</p>
+<h1 style="font-size:28px">Shaurya's AI</h1>
+<p id="boot">Booting Neural Core...</p>
 </div>
 
 <div class="container">
@@ -190,15 +114,15 @@ animation:bounce 1s infinite;
 </div>
 
 <script>
-/* MATRIX RAIN */
-const canvas = document.getElementById("matrix");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-const letters = "01";
-const fontSize = 14;
-const columns = canvas.width/fontSize;
-const drops = [];
+/* MATRIX */
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+const letters="01";
+const fontSize=14;
+const columns=canvas.width/fontSize;
+const drops=[];
 for(let x=0;x<columns;x++) drops[x]=1;
 function draw(){
 ctx.fillStyle="rgba(0,0,0,0.05)";
@@ -206,21 +130,24 @@ ctx.fillRect(0,0,canvas.width,canvas.height);
 ctx.fillStyle="#0F0";
 ctx.font=fontSize+"px monospace";
 for(let i=0;i<drops.length;i++){
-const text = letters[Math.floor(Math.random()*letters.length)];
+const text=letters[Math.floor(Math.random()*letters.length)];
 ctx.fillText(text,i*fontSize,drops[i]*fontSize);
-if(drops[i]*fontSize>canvas.height && Math.random()>0.975) drops[i]=0;
+if(drops[i]*fontSize>canvas.height&&Math.random()>0.975) drops[i]=0;
 drops[i]++;
 }
 }
 setInterval(draw,33);
 
-/* GREETING STORAGE */
-const greetings = ["hi","hello","hey","good morning","good evening","namaste"];
+/* GREETING SYSTEM */
+const greetingsSet=new Set([
+"hi","hello","hey","good morning","good evening",
+"good afternoon","namaste","yo","hola","sup"
+]);
 
-/* CHAT FUNCTION */
+/* SEND FUNCTION */
 async function send(){
-const input = document.getElementById("input");
-const text = input.value.trim();
+const input=document.getElementById("input");
+const text=input.value.trim();
 if(!text) return;
 addMessage(text,"user");
 input.value="";
@@ -231,7 +158,7 @@ speak("Shaurya Chauhan is the CEO of Shaurya AI.");
 return;
 }
 
-if(greetings.includes(text.toLowerCase())){
+if(greetingsSet.has(text.toLowerCase())){
 streamResponse("Hello! Welcome to Shaurya's AI.");
 return;
 }
@@ -239,10 +166,29 @@ return;
 addTyping();
 
 try{
-const res = await fetch("https://en.wikipedia.org/api/rest_v1/page/summary/"+encodeURIComponent(text));
-const data = await res.json();
+const searchRes=await fetch(
+"https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch="
++encodeURIComponent(text)+"&format=json&origin=*"
+);
+const searchData=await searchRes.json();
+
+if(!searchData.query.search.length){
 removeTyping();
-streamResponse(data.extract || "No information found.");
+streamResponse("No information found.");
+return;
+}
+
+const title=searchData.query.search[0].title;
+
+const summaryRes=await fetch(
+"https://en.wikipedia.org/api/rest_v1/page/summary/"
++encodeURIComponent(title)
+);
+const summaryData=await summaryRes.json();
+
+removeTyping();
+streamResponse(summaryData.extract || "No information found.");
+
 }catch{
 removeTyping();
 streamResponse("Unable to retrieve info.");
@@ -252,14 +198,14 @@ streamResponse("Unable to retrieve info.");
 /* STREAM RESPONSE */
 function streamResponse(text){
 let i=0;
-const msg = document.createElement("div");
+const msg=document.createElement("div");
 msg.className="message";
 document.getElementById("chat").appendChild(msg);
 const interval=setInterval(()=>{
 msg.textContent+=text[i];
 i++;
 if(i>=text.length) clearInterval(interval);
-},20);
+},15);
 speak(text);
 }
 
@@ -297,9 +243,8 @@ function speak(text){
 const utter=new SpeechSynthesisUtterance(text);
 speechSynthesis.speak(utter);
 }
-
 function startVoice(){
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+const recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
 recognition.onresult=function(event){
 document.getElementById("input").value=event.results[0][0].transcript;
 send();
