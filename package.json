@@ -1,0 +1,17 @@
+{
+  "name": "shaurya-ai-enterprise",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    "openai": "^4.0.0",
+    "dotenv": "^16.4.0",
+    "express-rate-limit": "^7.0.0"
+  }
+}
