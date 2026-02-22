@@ -28,7 +28,7 @@ animation:fadeOut 2s ease forwards 4s;
 .container{
 position:absolute;top:50%;left:50%;
 transform:translate(-50%,-50%);
-width:420px;height:680px;
+width:420px;height:700px;
 border-radius:30px;
 background:rgba(255,255,255,0.05);
 backdrop-filter:blur(20px);
@@ -45,6 +45,7 @@ margin:20px auto;border-radius:50%;
 background:radial-gradient(circle,#00ffff,#001);
 box-shadow:0 0 40px #00ffff,0 0 80px #00ffff;
 animation:spin 6s linear infinite;
+cursor:pointer;
 }
 @keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
 
@@ -57,8 +58,10 @@ background:rgba(0,255,255,0.1);
 animation:fadeIn .4s ease
 }
 .user{background:rgba(0,255,0,0.15)}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}
-to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
 
 /* INPUT */
 .inputBox{display:flex;padding:10px;border-top:1px solid #00ffff33}
@@ -80,8 +83,10 @@ border-radius:50%;animation:bounce 1s infinite
 }
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,100%{transform:translateY(0)}
-50%{transform:translateY(-5px)}}
+@keyframes bounce{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-5px)}
+}
 
 /* FOUNDER CARD */
 .founder{
@@ -90,8 +95,27 @@ background:linear-gradient(45deg,#00ffff,#0088ff);
 box-shadow:0 0 30px #00ffff;
 text-align:center;animation:glow 2s infinite alternate
 }
-@keyframes glow{from{box-shadow:0 0 20px #00ffff}
-to{box-shadow:0 0 60px #00ffff}}
+@keyframes glow{
+from{box-shadow:0 0 20px #00ffff}
+to{box-shadow:0 0 60px #00ffff}
+}
+
+/* ABOUT LINK */
+.about-link{
+text-align:center;
+padding:12px;
+font-size:13px;
+letter-spacing:1px;
+color:#00ffffaa;
+border-top:1px solid #00ffff22;
+cursor:pointer;
+transition:0.3s;
+text-decoration:none;
+}
+.about-link:hover{
+color:#00ffff;
+text-shadow:0 0 10px #00ffff;
+}
 </style>
 </head>
 <body>
@@ -111,6 +135,12 @@ to{box-shadow:0 0 60px #00ffff}}
 <button onclick="send()">Send</button>
 <button onclick="startVoice()">🎤</button>
 </div>
+
+<a class="about-link" 
+   href="https://about.me/shauryachauhan" 
+   target="_blank">
+   About Me
+</a>
 </div>
 
 <script>
@@ -134,15 +164,25 @@ const text=letters[Math.floor(Math.random()*letters.length)];
 ctx.fillText(text,i*fontSize,drops[i]*fontSize);
 if(drops[i]*fontSize>canvas.height&&Math.random()>0.975) drops[i]=0;
 drops[i]++;
-}
-}
+}}
 setInterval(draw,33);
 
 /* GREETING SYSTEM */
 const greetingsSet=new Set([
-"hi","hello","hey","good morning","good evening",
-"good afternoon","namaste","yo","hola","sup"
+"hi","hello","hey","good morning",
+"good evening","good afternoon",
+"namaste","yo","hola","sup"
 ]);
+
+/* ORB EASTER EGG */
+const orb=document.querySelector(".orb");
+orb.addEventListener("click",()=>{
+orb.style.boxShadow="0 0 120px #00ffff,0 0 200px #00ffff";
+setTimeout(()=>{
+orb.style.boxShadow="0 0 40px #00ffff,0 0 80px #00ffff";
+},400);
+speak("Neuro AI");
+});
 
 /* SEND FUNCTION */
 async function send(){
@@ -251,22 +291,6 @@ send();
 };
 recognition.start();
 }
-<!-- Keep everything else as in your code -->
-<!-- Add this inside your <script> tag at the bottom -->
-
-/* ORB EASTER EGG */
-const orb=document.querySelector(".orb");
-orb.addEventListener("click",()=>{
-  // Glow pulse animation
-  orb.style.transition="0.3s";
-  orb.style.boxShadow="0 0 100px #00ffff,0 0 200px #00ffff";
-  setTimeout(()=>{
-    orb.style.boxShadow="0 0 40px #00ffff,0 0 80px #00ffff";
-  },500);
-  
-  // Speak "Neuro AI"
-  speak("Neuro AI");
-});
 </script>
 
 </body>
