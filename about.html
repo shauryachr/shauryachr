@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shaurya Chauhan | About</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #6d28d9, #9333ea);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.card-wrapper {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25);
+  position: relative;
+}
+
+.top-banner {
+  height: 160px;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+}
+
+.profile-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid white;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 90px;
+}
+
+.content {
+  padding: 100px 30px 40px 30px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+.contact-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: white;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+  box-shadow: 0 10px 30px rgba(124,58,237,0.4);
+}
+
+.contact-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(124,58,237,0.6);
+}
+
+.bio {
+  margin-top: 30px;
+  font-size: 15px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #9ca3af;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card-wrapper">
+
+  <div class="top-banner"></div>
+
+  <!-- Replace image URL with your own -->
+  <img class="profile-img" src="https://via.placeholder.com/300" alt="Profile" />
+
+  <div class="content">
+    <h1>SHAURYA CHAUHAN</h1>
+
+    <div class="subtitle">
+      Web Developer, Student & Writer <br>
+      Mahendragarh, Haryana, India
+    </div>
+
+    <a href="mailto:youremail@example.com" class="contact-btn">
+      ✉ Contact Me
+    </a>
+
+    <div class="bio">
+      I am a web developer, student, and writer currently living in Mahendragarh, Haryana, India. 
+      My interests range from technology to music. I am also interested in web development, 
+      fashion, and innovation.
+    </div>
+
+    <div class="footer">
+      © 2026 Shaurya Chauhan
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
