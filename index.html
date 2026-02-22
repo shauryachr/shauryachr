@@ -1,102 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Shaurya AI Enterprise</title>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<style>
-body{margin:0;background:#0f0f1a;color:white;font-family:sans-serif;display:flex;height:100vh}
-.sidebar{width:260px;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);padding:20px}
-.chat{flex:1;display:flex;flex-direction:column;padding:20px}
-.messages{flex:1;overflow:auto}
-input,select{padding:10px;border-radius:8px;border:none}
-button{padding:10px;margin-left:5px;background:#8b5cf6;color:white;border:none;border-radius:8px}
-canvas{position:fixed;top:0;left:0;z-index:-1}
-</style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Shaurya AI</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-<canvas id="three"></canvas>
+<div class="app">
 
-<div class="sidebar">
-<h2>Shaurya AI</h2>
-<select id="model">
-<option value="gpt-4o-mini">GPT-4o Mini</option>
-<option value="gpt-4o">GPT-4o</option>
-</select>
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>Shaurya AI</h2>
+      <button id="toggleSidebar">☰</button>
+    </div>
+    <div class="history" id="history"></div>
+  </aside>
+
+  <main class="main">
+
+    <div class="window-controls">
+      <span class="dot red"></span>
+      <span class="dot yellow"></span>
+      <span class="dot green"></span>
+    </div>
+
+    <div class="chat" id="chat"></div>
+
+    <div class="typing" id="typing">AI is typing<span>.</span><span>.</span><span>.</span></div>
+
+    <div class="input-area">
+      <input id="input" placeholder="Ask something..." />
+      <button id="voiceBtn">🎤</button>
+      <button id="sendBtn">Send</button>
+    </div>
+
+    <div class="footer">
+      <a href="about.html">About Me</a>
+    </div>
+
+  </main>
+
 </div>
 
-<div class="chat">
-<div class="messages" id="messages"></div>
-<div>
-<input id="input" placeholder="Ask anything">
-<button onclick="send()">Send</button>
-<button onclick="voice()">🎤</button>
-</div>
-</div>
+<script src="config.js"></script>
+<script src="wiki.js"></script>
+<script src="ui.js"></script>
+<script src="app.js"></script>
 
-<script>
-let token=null;
-
-// ===== THREE ORB =====
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/window.innerHeight,0.1,1000);
-const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("three"),alpha:true});
-renderer.setSize(window.innerWidth,window.innerHeight);
-const sphere=new THREE.Mesh(
-new THREE.SphereGeometry(1,64,64),
-new THREE.MeshStandardMaterial({color:0x8b5cf6,emissive:0x3b82f6})
-);
-scene.add(sphere);
-scene.add(new THREE.PointLight(0xffffff,1));
-camera.position.z=3;
-(function animate(){requestAnimationFrame(animate);sphere.rotation.y+=0.01;renderer.render(scene,camera)})();
-
-// ===== CHAT =====
-async function send(){
-const message=document.getElementById("input").value;
-add("You",message);
-const res=await fetch("/api/chat",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-"Authorization":"Bearer "+token
-},
-body:JSON.stringify({
-message,
-model:document.getElementById("model").value
-})
-});
-const reader=res.body.getReader();
-const decoder=new TextDecoder();
-let ai=add("AI","");
-while(true){
-const {done,value}=await reader.read();
-if(done) break;
-ai.innerHTML+=decoder.decode(value);
-}
-speak(ai.innerText);
-}
-
-function add(sender,text){
-const div=document.createElement("div");
-div.innerHTML="<b>"+sender+":</b> "+text;
-document.getElementById("messages").appendChild(div);
-return div;
-}
-
-// ===== VOICE =====
-function voice(){
-const rec=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
-rec.start();
-rec.onresult=e=>{
-document.getElementById("input").value=e.results[0][0].transcript;
-send();
-};
-}
-function speak(text){
-speechSynthesis.speak(new SpeechSynthesisUtterance(text));
-}
-</script>
 </body>
 </html>
