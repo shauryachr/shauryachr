@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Neon:wght@400;700&family=Poppins:wght@300;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Neon:wght@400;700&family=Poppins:wght@300;500;600&display=swap');
 
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: #121212;
     color: #fff;
-    min-height: 100vh; /* Ensures full viewport height for scrolling */
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    overflow-y: auto; /* Enable vertical scroll */
+    min-height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 header {
     text-align: center;
-    padding: 50px 20px 30px;
+    padding: 50px 20px 40px;
     background: linear-gradient(to right, #ff00cc, #333399, #00ffcc);
     background-size: 200% 200%;
     animation: gradientFlow 12s ease infinite;
@@ -25,12 +25,22 @@ header {
     100% { background-position: 0% 50%; }
 }
 
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px;
+}
+
 h1 {
     font-family: 'Neon', cursive;
-    font-size: 4em;
+    font-size: 4.5em;
     margin: 0;
     text-shadow: 
-        0 0 5px #ff00cc,
         0 0 10px #ff00cc,
         0 0 20px #ff00cc,
         0 0 40px #333399,
@@ -43,12 +53,51 @@ p {
     opacity: 0.9;
 }
 
+.header-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.about-btn, .submit-btn.neon-btn {
+    padding: 14px 32px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.4s;
+}
+
+.about-btn {
+    background: linear-gradient(90deg, #ff00cc, #333399);
+    color: white;
+    box-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
+}
+
+.about-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 30px rgba(51, 51, 153, 0.7);
+}
+
+.submit-btn.neon-btn {
+    background: linear-gradient(90deg, #00ffcc, #ff00cc);
+    background-size: 200% 200%;
+    animation: gradientFlow 8s ease infinite;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 35px rgba(255, 0, 204, 0.7);
+    background-position: 100% 50%;
+}
+
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 40px 20px;
-    min-height: calc(100vh - 200px); /* Adjust for header, ensures room for scroll */
+    min-height: calc(100vh - 200px);
 }
 
 .search-bar {
@@ -105,14 +154,14 @@ button:hover {
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s ease;
-    max-height: 70vh; /* Limit height to encourage page scroll if very long */
-    overflow-y: auto; /* Internal scroll for extremely long content */
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #ff00cc #333; /* Firefox */
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ff00cc #333;
 }
 
 .result-card::-webkit-scrollbar {
-    width: 8px; /* Webkit */
+    width: 8px;
 }
 
 .result-card::-webkit-scrollbar-track {
@@ -148,75 +197,41 @@ button:hover {
     text-shadow: 0 0 10px #00ffcc;
 }
 
-@media (max-width: 768px) {
-    h1 { font-size: 3em; }
-    .search-bar { flex-direction: column; }
-    input { border-radius: 60px; border-right: 2px solid #ff00cc; margin-bottom: 15px; }
-    button { border-radius: 60px; }
-    .result-card { max-height: 60vh; } /* Tighter on mobile */
-}
-/* ── About Me Button ─────────────────────────────────────────────── */
-.header-content {
-    position: relative;
+/* Submit section styles */
+.submit-section {
+    width: 90%;
     max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 0 20px;
+    margin: 80px auto 120px;
+    padding: 45px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 0 50px rgba(0, 255, 204, 0.18);
 }
 
-.about-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px 32px;
-    background: linear-gradient(90deg, #ff00cc, #333399, #00ffcc);
-    background-size: 200% 200%;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-decoration: none;
-    border-radius: 50px;
-    border: none;
-    box-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
-    transition: all 0.4s ease;
-    animation: gradientFlow 8s ease infinite;
-    white-space: nowrap;
-}
-
-.about-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 35px rgba(0, 255, 204, 0.7);
-    background-position: 100% 50%;
-}
-
-.about-btn:active {
-    transform: translateY(1px);
-}
-
-/* Make header padding consistent */
-header {
-    padding: 50px 20px 40px;  /* slightly adjusted for better spacing */
+.submit-section h2 {
     text-align: center;
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    text-shadow: 0 0 20px #00ffcc;
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .about-btn {
-        margin-top: 20px;
-        padding: 16px 40px;
-        font-size: 1.15rem;
-    }
-    
-    h1 {
-        font-size: 3.5rem;
-    }
+.submit-section p {
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 35px;
 }
+
+.submit-section label {
+    display: block;
+    margin: 24px 0 10px;
+    font-weight: 500;
+    color: #00ffcc;
+    font-size: 1.1rem;
+}
+
+.submit-section input,
+.submit-section textarea {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(20, 20,
