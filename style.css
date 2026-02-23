@@ -155,3 +155,68 @@ button:hover {
     button { border-radius: 60px; }
     .result-card { max-height: 60vh; } /* Tighter on mobile */
 }
+/* ── About Me Button ─────────────────────────────────────────────── */
+.header-content {
+    position: relative;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.about-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 32px;
+    background: linear-gradient(90deg, #ff00cc, #333399, #00ffcc);
+    background-size: 200% 200%;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 50px;
+    border: none;
+    box-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
+    transition: all 0.4s ease;
+    animation: gradientFlow 8s ease infinite;
+    white-space: nowrap;
+}
+
+.about-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 35px rgba(0, 255, 204, 0.7);
+    background-position: 100% 50%;
+}
+
+.about-btn:active {
+    transform: translateY(1px);
+}
+
+/* Make header padding consistent */
+header {
+    padding: 50px 20px 40px;  /* slightly adjusted for better spacing */
+    text-align: center;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .about-btn {
+        margin-top: 20px;
+        padding: 16px 40px;
+        font-size: 1.15rem;
+    }
+    
+    h1 {
+        font-size: 3.5rem;
+    }
+}
