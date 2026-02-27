@@ -9,17 +9,16 @@
 
 <style>
 :root {
-    --rose-gold: #b76e79;
-    --rose-gold-light: #e8b4bc;
-    --bg-dark: #0f0f14;
-    --card-bg: #1b1b22;
-    --text-light: #f5f5f7;
+    --rose:#b76e79;
+    --rose-light:#e8b4bc;
+    --bg:#0f0f14;
+    --card:#1b1b22;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Google Sans',sans-serif; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Google Sans',sans-serif;}
 
-body {
-    background: var(--bg-dark);
+body{
+    background:var(--bg);
     display:flex;
     justify-content:center;
     align-items:center;
@@ -28,58 +27,67 @@ body {
     color:white;
 }
 
-.container {
-    background: var(--card-bg);
+.container{
+    background:var(--card);
     padding:40px;
     border-radius:20px;
     width:100%;
-    max-width:500px;
-    border:1px solid var(--rose-gold);
+    max-width:520px;
+    border:1px solid var(--rose);
     box-shadow:0 0 40px rgba(183,110,121,0.3);
 }
 
-h1 {
+h1{
     text-align:center;
-    color:var(--rose-gold-light);
+    color:var(--rose-light);
     margin-bottom:10px;
 }
 
-.subtitle {
+.subtitle{
     text-align:center;
     font-size:14px;
     opacity:0.7;
     margin-bottom:30px;
 }
 
-label { margin-top:20px; display:block; font-size:14px; }
+label{
+    display:block;
+    margin-top:18px;
+    font-size:14px;
+}
 
-input, textarea {
+input,textarea{
     width:100%;
     margin-top:6px;
     padding:12px;
     border-radius:12px;
-    border:1px solid var(--rose-gold);
+    border:1px solid var(--rose);
     background:transparent;
     color:white;
 }
 
-textarea { resize:none; height:100px; }
-
-.stars {
-    display:flex;
-    gap:5px;
-    margin-top:6px;
+textarea{
+    resize:none;
+    height:110px;
 }
 
-.star {
-    font-size:22px;
+.stars{
+    display:flex;
+    gap:6px;
+    margin-top:8px;
+}
+
+.star{
+    font-size:24px;
     cursor:pointer;
     color:#555;
 }
 
-.star.active { color:var(--rose-gold-light); }
+.star.active{
+    color:var(--rose-light);
+}
 
-button {
+button{
     margin-top:25px;
     width:100%;
     padding:12px;
@@ -87,7 +95,7 @@ button {
     border:none;
     font-weight:600;
     cursor:pointer;
-    background:linear-gradient(135deg,var(--rose-gold),var(--rose-gold-light));
+    background:linear-gradient(135deg,var(--rose),var(--rose-light));
     color:black;
 }
 </style>
@@ -101,17 +109,21 @@ button {
 <form action="https://api.staticforms.xyz/submit" method="POST">
 
 <input type="hidden" name="accessKey" value="sf_kb1n1nc33dnjl8a0h747i9ba">
-<input type="hidden" name="subject" value="New Science Project Review">
-<input type="hidden" name="replyTo" value="email">
-<input type="hidden" name="redirectTo" value="https://google.com">
+<input type="hidden" name="subject" value="Science Project Review Submission">
 
-<label>Your Name</label>
+<label>Full Name *</label>
 <input type="text" name="name" required>
 
-<label>Your Email</label>
-<input type="email" name="email" required>
+<label>Organization / School *</label>
+<input type="text" name="organization" required>
 
-<label>Rating</label>
+<label>Email (Optional)</label>
+<input type="email" name="email">
+
+<label>Phone Number (Optional)</label>
+<input type="tel" name="phone">
+
+<label>Project Rating *</label>
 <div class="stars">
 <span class="star" data-value="1">★</span>
 <span class="star" data-value="2">★</span>
@@ -121,7 +133,7 @@ button {
 </div>
 <input type="hidden" name="rating" id="ratingInput" required>
 
-<label>Review Message</label>
+<label>Your Review *</label>
 <textarea name="message" required></textarea>
 
 <button type="submit">Submit Review</button>
@@ -134,14 +146,14 @@ const stars=document.querySelectorAll('.star');
 const ratingInput=document.getElementById('ratingInput');
 
 stars.forEach(star=>{
-star.addEventListener('click',()=>{
-const value=star.getAttribute('data-value');
-ratingInput.value=value;
-stars.forEach(s=>s.classList.remove('active'));
-for(let i=0;i<value;i++){
-stars[i].classList.add('active');
-}
-});
+    star.addEventListener('click',()=>{
+        const value=star.getAttribute('data-value');
+        ratingInput.value=value;
+        stars.forEach(s=>s.classList.remove('active'));
+        for(let i=0;i<value;i++){
+            stars[i].classList.add('active');
+        }
+    });
 });
 </script>
 
