@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vasuki Labs | Future of AI</title>
+    <title>Vasuki Labs | AI Research & Design</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --rose-gold: #E5B1A1;
+            --rose-gold-dark: #b88a7d;
             --rose-gold-light: #F2D7D0;
-            --bg-cream: #F9F4F2;
+            --bg-cream: #FAF7F5;
             --text-dark: #2D2E30;
             --white: #ffffff;
         }
@@ -19,154 +20,205 @@
             background-color: var(--bg-cream);
             color: var(--text-dark);
             margin: 0;
-            line-height: 1.6;
+            scroll-behavior: smooth;
         }
 
         header {
-            padding: 80px 20px;
+            padding: 100px 20px;
             text-align: center;
-            background: linear-gradient(135deg, #fff 0%, var(--rose-gold-light) 100%);
+            background: linear-gradient(180deg, var(--rose-gold-light) 0%, var(--bg-cream) 100%);
         }
 
         h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 8vw, 4rem);
             margin: 0;
             letter-spacing: -1px;
-            color: var(--text-dark);
-        }
-
-        .subtitle {
-            font-weight: 300;
-            font-size: 1.2rem;
-            color: #777;
-            margin-top: 10px;
         }
 
         .container {
-            max-width: 1100px;
-            margin: -50px auto 100px;
+            max-width: 1200px;
+            margin: -40px auto 100px;
             padding: 0 20px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 25px;
         }
 
         .card {
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(229, 177, 161, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 24px;
             border: 1px solid rgba(229, 177, 161, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(229, 177, 161, 0.4);
-        }
-
-        .card h3 {
-            color: var(--rose-gold);
-            font-size: 1.4rem;
-            margin-top: 0;
-            border-bottom: 2px solid var(--bg-cream);
-            padding-bottom: 10px;
+            transform: translateY(-8px);
+            background: var(--white);
+            box-shadow: 0 20px 40px rgba(229, 177, 161, 0.25);
         }
 
         .tag {
             display: inline-block;
             background: var(--rose-gold-light);
-            padding: 4px 12px;
+            color: var(--rose-gold-dark);
+            padding: 5px 14px;
             border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
             margin-bottom: 15px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
         }
 
-        footer {
-            text-align: center;
-            padding: 50px;
-            font-size: 0.9rem;
-            color: #999;
+        h3 { margin: 10px 0; font-size: 1.5rem; }
+        p { color: #555; font-size: 0.95rem; line-height: 1.6; }
+
+        /* INTERACTIVE ELEMENTS */
+        .playground-box {
+            background: #2D2E30;
+            color: #E5B1A1;
+            padding: 15px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            margin-top: 15px;
         }
 
-        .highlight { color: var(--rose-gold); }
+        .feedback-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            background: var(--white);
+            border: 1px solid var(--rose-gold);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--rose-gold);
+            color: white;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+
+        footer { text-align: center; padding: 60px; color: #aaa; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Vasuki<span class="highlight">Labs</span></h1>
-    <p class="subtitle">Architecting Intelligence through Radical Experimentation</p>
+    <h1>Vasuki Labs</h1>
+    <p style="font-weight: 300; opacity: 0.7;">Designing the Interface of Tomorrow</p>
 </header>
 
 <div class="container">
-    <div class="card">
-        <div class="tag">Core Tech</div>
-        <h3>Foundational</h3>
-        <p>Research-heavy projects exploring new models, private LLMs, and core technology to push the boundaries of AI.</p>
-    </div>
-
-    <div class="card">
-        <div class="tag">Innovation</div>
-        <h3>Multimodal Agents</h3>
-        <p>Experiments that process and synthesize video, audio, and text simultaneously for a richer sensory AI experience.</p>
-    </div>
-
-    <div class="card">
-        <div class="tag">Utility</div>
-        <h3>Productivity</h3>
-        <p>Tools designed to automate repetitive tasks and streamline professional workflows for the modern workforce.</p>
-    </div>
-
+    
     <div class="card">
         <div class="tag">Design</div>
         <h3>Creative Play</h3>
-        <p>Experiments focused on artistic tools, design automation, and the intersection of AI and creative expression.</p>
+        <p>Experiments focused on artistic tools, design automation, and creative expression through generative AI.</p>
     </div>
 
     <div class="card">
-        <div class="tag">Collaboration</div>
-        <h3>Multi-Agent Systems</h3>
-        <p>Orchestrating environments where multiple AI agents collaborate to solve complex, multi-layered problems.</p>
+        <div class="tag">Systems</div>
+        <h3>Productivity</h3>
+        <p>Automating repetitive tasks and streamlining professional workflows with agentic intelligence.</p>
+    </div>
+
+    <div class="card">
+        <div class="tag">Research</div>
+        <h3>Foundational</h3>
+        <p>Core research into new models, private LLMs, and foundational technology for secure data processing.</p>
     </div>
 
     <div class="card">
         <div class="tag">Sandbox</div>
         <h3>Interactive Playground</h3>
-        <p>A hands-on environment where users can test parameters, adjust model behaviors, and explore AI outputs.</p>
+        <p>Test model behaviors in real-time. Type a command to see the output.</p>
+        <input type="text" id="playgroundInput" placeholder="Enter 'run experiment' or 'status'..." onkeydown="if(event.key==='Enter') runSandbox()">
+        <div class="playground-box" id="terminalOutput">> Ready for input...</div>
     </div>
 
     <div class="card">
-        <div class="tag">Search</div>
+        <div class="tag">Refinement</div>
+        <h3>Feedback Loops</h3>
+        <p>Built-in mechanisms to refine our prototypes based on user sentiment.</p>
+        <div class="feedback-btns">
+            <button onclick="alert('Thank you for the positive rating!')">👍 Helpful</button>
+            <button onclick="alert('We appreciate the feedback. Sending to dev logs...')">👎 Needs Work</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="tag">Architecture</div>
+        <h3>Multi-Agent Systems</h3>
+        <p>Orchestrating clusters of AI agents to solve complex, multi-step problems autonomously.</p>
+    </div>
+
+    <div class="card">
+        <div class="tag">Discovery</div>
         <h3>Context-Aware Search</h3>
-        <p>Deep search tools designed to navigate specific, private datasets or local files with semantic precision.</p>
+        <p>Deep-dive search tools that synthesize information from your private local datasets and files.</p>
+    </div>
+
+    <div class="card">
+        <div class="tag">Perception</div>
+        <h3>Multimodal Agents</h3>
+        <p>Processing video, audio, and text simultaneously to create a unified understanding of the world.</p>
     </div>
 
     <div class="card">
         <div class="tag">Experimental</div>
         <h3>Wildcards</h3>
-        <p>Community-led projects, gaming experiments, and unconventional AI uses that defy standard categorization.</p>
-    </div>
-
-    <div class="card">
-        <div class="tag">Data</div>
-        <h3>Feedback Loops</h3>
-        <p>Built-in rating systems and data collection mechanisms to refine prototypes through real-world user interaction.</p>
+        <p>Gaming, community experiments, and unconventional AI uses that push the limits of the possible.</p>
     </div>
 
     <div class="card">
         <div class="tag">Transparency</div>
         <h3>Developer Logs</h3>
-        <p>Transparent documentation of our journey, including the raw successes and the necessary failures of development.</p>
+        <p>A transparent record of our development journey, featuring successes, pivots, and failures.</p>
     </div>
+
 </div>
 
 <footer>
-    &copy; 2026 Vasuki Labs. Designed for the Next Intelligence.
+    &copy; 2026 Vasuki Labs | Built with Precision
 </footer>
+
+<script>
+    function runSandbox() {
+        const input = document.getElementById('playgroundInput').value.toLowerCase();
+        const output = document.getElementById('terminalOutput');
+        
+        if(input.includes('run')) {
+            output.innerHTML = "> Initializing neural weights...<br>> Analysis complete: 98.4% accuracy.";
+        } else if(input.includes('status')) {
+            output.innerHTML = "> System: Online<br>> Agents: 12 Active<br>> Latency: 14ms";
+        } else {
+            output.innerHTML = "> Command not recognized. Try 'run' or 'status'.";
+        }
+        document.getElementById('playgroundInput').value = '';
+    }
+</script>
 
 </body>
 </html>
