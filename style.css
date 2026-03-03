@@ -1,28 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Neon:wght@400;700&family=Poppins:wght@300;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Poppins:wght@400;500;600&display=swap');
+
+/* ───────── ROOT DESIGN SYSTEM ───────── */
+
+:root {
+    --bg-primary: #0f0f12;
+    --bg-secondary: #16161c;
+    --glass: rgba(255, 255, 255, 0.04);
+
+    --rose-gold: #b76e79;
+    --rose-gold-light: #d8a7af;
+    --rose-gold-dark: #8c4f59;
+
+    --text-primary: #ffffff;
+    --text-secondary: #cfcfd6;
+    --border-subtle: rgba(255, 255, 255, 0.08);
+
+    --radius-large: 24px;
+    --radius-medium: 16px;
+    --radius-pill: 999px;
+
+    --transition: all 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ───────── BASE ───────── */
 
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #121212;
-    color: #fff;
+    font-family: 'Google Sans', 'Poppins', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
     min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    -webkit-font-smoothing: antialiased;
 }
+
+/* ───────── HEADER ───────── */
 
 header {
-    text-align: center;
-    padding: 50px 20px 40px;
-    background: linear-gradient(to right, #ff00cc, #333399, #00ffcc);
-    background-size: 200% 200%;
-    animation: gradientFlow 12s ease infinite;
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-}
-
-@keyframes gradientFlow {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    padding: 70px 20px 60px;
+    background: linear-gradient(135deg, #1a1a22, #121218);
+    border-bottom: 1px solid var(--border-subtle);
 }
 
 .header-content {
@@ -31,161 +47,135 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
     gap: 20px;
-    padding: 0 20px;
 }
 
 h1 {
-    font-family: 'Neon', cursive;
-    font-size: 4.5em;
+    font-size: 3.5rem;
+    font-weight: 700;
     margin: 0;
-    text-shadow: 
-        0 0 10px #ff00cc,
-        0 0 20px #ff00cc,
-        0 0 40px #333399,
-        0 0 80px #00ffcc;
+    letter-spacing: -1px;
+    background: linear-gradient(90deg, var(--rose-gold-light), var(--rose-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 p {
-    font-size: 1.3em;
-    margin: 10px 0 0;
-    opacity: 0.9;
+    font-size: 1.1rem;
+    margin-top: 12px;
+    color: var(--text-secondary);
 }
+
+/* ───────── BUTTONS ───────── */
 
 .header-buttons {
     display: flex;
-    gap: 15px;
-    align-items: center;
-    flex-wrap: wrap;
+    gap: 14px;
 }
 
-.about-btn, .submit-btn.neon-btn, .join-btn.neon-btn {
-    padding: 14px 32px;
-    border-radius: 50px;
+.about-btn,
+.submit-btn.neon-btn,
+.join-btn.neon-btn,
+button {
+    padding: 14px 28px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 500;
     text-decoration: none;
-    font-weight: 600;
-    transition: all 0.4s;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.about-btn {
-    background: linear-gradient(90deg, #ff00cc, #333399);
-    color: white;
-    box-shadow: 0 0 20px rgba(255, 0, 204, 0.4);
+.about-btn:hover,
+.submit-btn.neon-btn:hover,
+.join-btn.neon-btn:hover,
+button:hover {
+    background: var(--rose-gold);
+    border-color: var(--rose-gold);
+    color: #111;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(183, 110, 121, 0.25);
 }
 
-.about-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 30px rgba(51, 51, 153, 0.7);
-}
-
+/* Primary Action */
 .submit-btn.neon-btn {
-    background: linear-gradient(90deg, #00ffcc, #ff00cc);
-    background-size: 200% 200%;
-    animation: gradientFlow 8s ease infinite;
-    color: #000;
-    box-shadow: 0 0 20px rgba(0, 255, 204, 0.5);
+    background: var(--rose-gold);
+    color: #111;
+    border: none;
 }
 
-.submit-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 35px rgba(255, 0, 204, 0.7);
-    background-position: 100% 50%;
+.submit-btn.neon-btn:hover {
+    background: var(--rose-gold-light);
 }
 
-.join-btn.neon-btn {
-    background: linear-gradient(90deg, #ffcc00, #ff6600);
-    background-size: 200% 200%;
-    animation: gradientFlow 8s ease infinite;
-    color: #000;
-    box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
-}
-
-.join-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 0 35px rgba(255, 102, 0, 0.7);
-    background-position: 100% 50%;
-}
+/* ───────── MAIN ───────── */
 
 main {
+    padding: 60px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px 20px;
-    min-height: calc(100vh - 200px);
 }
 
+/* ───────── SEARCH BAR ───────── */
+
 .search-bar {
-    display: flex;
     width: 90%;
-    max-width: 1000px;
-    margin-bottom: 50px;
+    max-width: 950px;
+    display: flex;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
 }
 
 input {
     flex: 1;
-    padding: 22px 25px;
-    border: 2px solid #ff00cc;
-    border-right: none;
-    border-radius: 60px 0 0 60px;
-    background: rgba(255,255,255,0.05);
-    color: #fff;
-    font-size: 1.3em;
-    outline: none;
-    transition: all 0.3s;
-}
-
-input:focus {
-    border-color: #00ffcc;
-    box-shadow: 0 0 25px rgba(0, 255, 204, 0.5);
-}
-
-button {
-    padding: 22px 50px;
+    padding: 20px 24px;
     border: none;
-    border-radius: 0 60px 60px 0;
-    background: linear-gradient(90deg, #ff00cc, #333399);
-    color: white;
-    font-size: 1.2em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
 }
 
-button:hover {
-    background: linear-gradient(90deg, #333399, #00ffcc);
-    transform: scale(1.03);
-    box-shadow: 0 0 30px rgba(51, 51, 153, 0.7);
+input::placeholder {
+    color: #888;
 }
+
+.search-bar button {
+    border-radius: 0;
+    border: none;
+    background: var(--rose-gold);
+    color: #111;
+    padding: 0 40px;
+    font-weight: 600;
+}
+
+.search-bar button:hover {
+    background: var(--rose-gold-light);
+}
+
+/* ───────── RESULT CARD ───────── */
 
 .result-card {
     width: 90%;
-    max-width: 1000px;
-    padding: 35px;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 0, 204, 0.3);
-    border-radius: 25px;
-    box-shadow: 0 0 40px rgba(255, 0, 204, 0.25);
+    max-width: 950px;
+    margin-top: 50px;
+    padding: 40px;
+    border-radius: var(--radius-large);
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
+    transform: translateY(20px);
+    transition: var(--transition);
     max-height: 70vh;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #ff00cc #333;
-}
-
-.result-card::-webkit-scrollbar {
-    width: 8px;
-}
-
-.result-card::-webkit-scrollbar-track {
-    background: #333;
-}
-
-.result-card::-webkit-scrollbar-thumb {
-    background: #ff00cc;
-    border-radius: 4px;
 }
 
 .result-card.visible {
@@ -194,110 +184,109 @@ button:hover {
 }
 
 .result-card h2 {
-    margin: 0 0 20px;
-    font-size: 2.2em;
-    text-shadow: 0 0 15px #00ffcc;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: var(--rose-gold-light);
 }
 
 .result-card p {
-    line-height: 1.8;
-    font-size: 1.15em;
-    margin-bottom: 10px;
+    line-height: 1.7;
+    font-size: 1rem;
+    color: var(--text-secondary);
 }
 
 .special-answer {
-    color: #00ffcc;
+    color: var(--rose-gold-light);
     font-weight: 600;
-    font-size: 1.3em;
-    text-shadow: 0 0 10px #00ffcc;
 }
 
-/* ── Shared form styles (used in submit.html & join-about.html) ──────────────── */
+/* ───────── FORM SECTION ───────── */
 
 .submit-section {
     width: 90%;
-    max-width: 1100px;
-    margin: 80px auto 120px;
-    padding: 45px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(0, 255, 204, 0.3);
-    border-radius: 30px;
-    box-shadow: 0 0 50px rgba(0, 255, 204, 0.18);
+    max-width: 1000px;
+    margin: 80px auto;
+    padding: 50px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-large);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 25px 70px rgba(0,0,0,0.5);
 }
 
 .submit-section h2 {
     text-align: center;
-    font-size: 2.8rem;
-    margin-bottom: 25px;
-    text-shadow: 0 0 20px #00ffcc;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: var(--rose-gold-light);
 }
 
 .submit-section p {
     text-align: center;
-    line-height: 1.6;
-    margin-bottom: 35px;
-    font-size: 1.1rem;
+    margin-bottom: 40px;
+    color: var(--text-secondary);
 }
 
 .submit-section label {
     display: block;
-    margin: 24px 0 10px;
+    margin: 20px 0 8px;
     font-weight: 500;
-    color: #00ffcc;
-    font-size: 1.1rem;
+    color: var(--rose-gold-light);
 }
 
 .submit-section input,
 .submit-section textarea {
     width: 100%;
-    padding: 14px 18px;
-    background: rgba(20, 20, 40, 0.7);
-    border: 1px solid #333399;
-    border-radius: 12px;
-    color: #fff;
-    font-family: monospace;
-    font-size: 1rem;
-    transition: border 0.3s;
+    padding: 16px;
+    background: #111115;
+    border-radius: var(--radius-medium);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: var(--transition);
 }
 
 .submit-section input:focus,
 .submit-section textarea:focus {
-    border-color: #00ffcc;
-    outline: none;
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    border-color: var(--rose-gold);
+    box-shadow: 0 0 0 3px rgba(183, 110, 121, 0.2);
 }
 
 .submit-section textarea {
-    min-height: 140px;
+    min-height: 150px;
     resize: vertical;
 }
 
-.submit-btn.neon-btn {
-    margin-top: 40px;
-    width: 100%;
-    padding: 20px;
-    font-size: 1.4rem;
-    background: linear-gradient(90deg, #ff00cc, #00ffcc, #333399);
-    background-size: 200% 200%;
-    animation: gradientFlow 10s ease infinite;
-}
-
-.submit-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 0 40px rgba(0, 255, 204, 0.6);
-}
+/* ───────── RESPONSIVE ───────── */
 
 @media (max-width: 768px) {
-    h1 { font-size: 3.5em; }
-    .header-content { flex-direction: column; text-align: center; }
-    .header-buttons { flex-direction: column; width: 100%; gap: 12px; }
-    .about-btn, .submit-btn.neon-btn, .join-btn.neon-btn {
+
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .about-btn,
+    .submit-btn.neon-btn,
+    .join-btn.neon-btn {
+        width: 100%;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        border-radius: var(--radius-medium);
+    }
+
+    .search-bar button {
         width: 100%;
         padding: 16px;
-        font-size: 1.1rem;
     }
-    .search-bar { flex-direction: column; }
-    input { border-radius: 60px; border-right: 2px solid #ff00cc; margin-bottom: 15px; }
-    button { border-radius: 60px; width: 100%; }
-    .result-card { max-height: 60vh; }
 }
