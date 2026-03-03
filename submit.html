@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Submit Your Page – Shaurya AI</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google reCAPTCHA v2 script -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <header>
@@ -26,14 +24,10 @@
                 Fill in your HTML/CSS/JS code below. It will be emailed instantly to shauryachr@gmail.com.<br>
                 I'll review it manually for safety & quality, then host approved pages at:<br>
                 <code>https://yourusername.github.io/shaurya-ai/pages/your-slug.html</code>
-                <br>(replace "yourusername" with your actual GitHub username)
             </p>
 
             <form action="https://api.staticforms.dev/submit" method="POST">
-                <!-- Static Forms API Key -->
                 <input type="hidden" name="apiKey" value="sf_kb1n1nc33dnjl8a0h747i9ba">
-                
-                <!-- Email subject -->
                 <input type="hidden" name="subject" value="New Page Submission – Shaurya AI">
 
                 <label for="your-name">Your Name / Alias *</label>
@@ -46,31 +40,25 @@
                 <input type="text" id="page-title" name="title" required placeholder="My Awesome Neon Landing Page">
 
                 <label for="html-code">HTML Code *</label>
-                <textarea id="html-code" name="html" rows="12" required placeholder='<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Your Title</title>\n  ...\n</head>\n<body>\n  Your content here...\n</body>\n</html>'></textarea>
+                <textarea id="html-code" name="html" rows="12" required placeholder='<!DOCTYPE html> ... your full code here ...'></textarea>
 
                 <label for="css-code">CSS Code (optional)</label>
-                <textarea id="css-code" name="css" rows="10" placeholder='body { background: #000; color: #0ff; font-family: "Neon", cursive; } ...'></textarea>
+                <textarea id="css-code" name="css" rows="10" placeholder='body { background: #000; ... }'></textarea>
 
                 <label for="js-code">JavaScript Code (optional)</label>
-                <textarea id="js-code" name="js" rows="10" placeholder='console.log("Hello from user page!"); ...'></textarea>
+                <textarea id="js-code" name="js" rows="10" placeholder='console.log("Hello!"); ...'></textarea>
 
-                <label for="description">Description / Notes for review (optional)</label>
-                <textarea id="description" name="notes" rows="5" placeholder="This is a fun neon particle effect. No external resources used..."></textarea>
+                <label for="description">Description / Notes (optional)</label>
+                <textarea id="description" name="notes" rows="5" placeholder="Particle background experiment..."></textarea>
 
-                <!-- reCAPTCHA v2 widget -->
-                <div class="g-recaptcha" data-sitekey="6LeEM3UsAAAAAHMl7puAl_lFgL95hjbr3DJE7izT"></div>
-                <br>
-
-                <!-- Honeypot spam protection -->
                 <input type="text" name="_gotcha" style="display:none !important;">
 
-                <!-- The submit button is here -->
                 <button type="submit" class="neon-btn submit-btn">Send Submission</button>
             </form>
 
             <p style="margin-top:30px; font-size:0.95em; opacity:0.8; text-align:center;">
                 Code must be safe & clean (no trackers, malicious scripts, ads, inappropriate content).<br>
-                All submissions are manually reviewed — no automatic publishing.
+                Submissions are manually reviewed — no automatic publishing.
             </p>
         </section>
     </main>
