@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Custom Page – Shaurya AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>Shaurya AI</h1>
+                <p>Request a Custom Page (No Coding Needed)</p>
+            </div>
+            <a href="index.html" class="about-btn">Back to AI</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="submit-section">
+            <h2>Describe Your Dream Page</h2>
+            <p>Tell me exactly what kind of page you want. I'll build it and host it for you!</p>
+
+            <form action="https://api.staticforms.dev/submit" method="POST">
+                <input type="hidden" name="apiKey" value="sf_kb1n1nc33dnjl8a0h747i9ba">
+                <input type="hidden" name="subject" value="New Page Request – Shaurya AI">
+
+                <label for="name">Your Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Your name">
+
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="your@email.com">
+
+                <label for="slug">Preferred Page URL (optional)</label>
+                <input type="text" id="slug" name="slug" placeholder="my-cool-portfolio">
+
+                <label for="description">Describe the page you want (be as detailed as possible) *</label>
+                <textarea id="description" name="description" rows="12" required placeholder="I want a beautiful music player with rose glow effects, dark mode, playlist support..."></textarea>
+
+                <input type="text" name="_gotcha" style="display:none !important;">
+
+                <button type="submit" class="neon-btn submit-btn">Send My Request</button>
+            </form>
+
+            <p style="margin-top:30px; opacity:0.8; text-align:center;">
+                I will review and build your page manually. You'll get the link once it's live!
+            </p>
+        </section>
+    </main>
+</body>
+</html>
