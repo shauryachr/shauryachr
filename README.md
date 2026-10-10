@@ -42,7 +42,7 @@ A drone-based blower system for clearing debris, dust, and loose surface materia
 
 - **Email:** [shauryachr@gmail.com](mailto:shauryachr@gmail.com)
 - **GitHub:** [github.com/shauryachr](https://github.com/shauryachr)
-- **LinkedIn:** [linkedin.com/in/shaurya-chauhan-1307742bb](https://www.linkedin.com/in/shaurya-chauhan-1307742bb/)
+- **LinkedIn:** [linkedin.com/in/shauryachr](https://www.linkedin.com/in/shauryachr/)
 - **Digital card:** [rksworld.org/shaurya/card.html](https://rksworld.org/shaurya/card.html)
 
 ---
